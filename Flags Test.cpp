@@ -12,12 +12,14 @@ void help()
     printf("----------------------------------------------------\n");
     printf("Password Generation Flags\n");
     printf("----------------------------------------------------\n");
-    printf("-p  Input your own (p)assword after the -p. Causes d, l, u, and s to not have any effect.\n");
-    printf("-d  Use (d)igits in the generated password\n");
-    printf("-l  Use (l)owercase a-z in the generated password\n");
-    printf("-u  Use (u)ppercase A-Z in the generated password\n");
-    printf("-s  Use (s)pecial characters in the generated password\n");
-    printf("-v  (Verbose) Tell you which of these are toggled (if any)\n");
+    printf("-p\tInput your own (p)assword after the -p. Causes d, l, u, and s to not have any effect.\n");
+    printf("-d\tUse (d)igits in the generated password\n");
+    printf("-l\tUse (l)owercase a-z in the generated password\n");
+    printf("-u\tUse (u)ppercase A-Z in the generated password\n");
+    printf("-s\tUse (s)pecial characters in the generated password\n");
+    printf("-v\t(Verbose) Tell you which of these are toggled (if any)\n");
+    printf("----------------------------------------------------\n");
+    printf("--help\tShows this\n");
     printf("----------------------------------------------------\n");
 }
 
@@ -146,6 +148,12 @@ bool isSpecialChar(char c, bool *usingSpecialChars)
 
 int main(int argc, char *argv[])
 {
+    if (argc < 2)
+    {
+        help();
+        exit(EXIT_SUCCESS);
+    }
+
     bool customPwd = false;
     bool usingDigits = false;
     bool usingLower = false;
@@ -171,6 +179,12 @@ int main(int argc, char *argv[])
 
     for (int i = 0; i < argc; i++) //Apply command line args
     {
+        if (args[i] == "--help")
+        {
+            help();
+            exit(EXIT_SUCCESS);
+        }
+
         if ((args[i][0] == '-') && (args[i][1] == 'p'))
         {
             password.resize(args[i].length() - 2); //Make large enough to store user's password (-2 because of -p)
