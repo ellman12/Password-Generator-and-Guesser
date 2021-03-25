@@ -3,8 +3,6 @@
 #include <string>
 using namespace std;
 
-#define validArgsAmt 6
-
 void help()
 {
     printf("----------------------------------------------------\n");
@@ -253,6 +251,4 @@ int main(int argc, char *argv[])
                 printf("Using special characters\n");
         }
     }
-
-    cout << "password: " << password << endl;
 }
