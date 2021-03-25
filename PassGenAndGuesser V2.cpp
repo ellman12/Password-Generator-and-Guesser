@@ -1,8 +1,6 @@
 //Program used for generating random passwords, and then testing how long it takes for the PC to guess said password.
 //Programmer: Elliott DuCharme
 //Environment: VSCode on Windows with the g++ compiler
-//This is a program where the computer tries to guess a "password(?)", and records how many attempts it took.
-//It can also use a vector to track duplicate guesses so it doesn't re-guess something it already guessed. This can be disabled.
 //WARNING: fairly intensive on your CPU!
 #include <iostream>
 #include <vector>
@@ -84,6 +82,7 @@ string generatePassword(int length, int useNumbers, int useLowerCase, int useUpp
         usableChars.push_back('=');
         usableChars.push_back('+');
         usableChars.push_back('?');
+        usableChars.push_back('%');
         usableChars.push_back('[');
         usableChars.push_back(']');
         usableChars.push_back('{');
@@ -95,6 +94,7 @@ string generatePassword(int length, int useNumbers, int useLowerCase, int useUpp
         usableChars.push_back('>');
         usableChars.push_back(',');
         usableChars.push_back('.');
+        usableChars.push_back('\'');
         usableChars.push_back('"');
     }
 
