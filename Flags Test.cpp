@@ -14,6 +14,30 @@ int totalAttempts = 0;  //Total attempts without counting duplicates
 int actualAttempts = 0; //Total with duplicates counted
 string password;
 
+//If user specifies -v, print out stuff so they know what's happening under the hood
+void verbosePrint()
+{
+    if (customPwd == true)
+        cout << "The password you entered is: " << password << endl;
+
+    if (usingDigits == true)
+        printf("Using digits\n");
+
+    if (usingLower == true)
+        printf("Using lower\n");
+
+    if (usingUpper == true)
+        printf("Using upper\n");
+
+    if (usingSpecialChars == true)
+        printf("Using special chars\n");
+
+    if (nostore == true)
+        printf("Guesses will not be stored\n");
+    else
+        printf("Guesses will be stored\n");
+}
+
 void printline(int length)
 {
     for (int i = 0; i < length; i++)
@@ -219,73 +243,37 @@ int main(int argc, char *argv[])
             for (int j = 0; j < password.length(); j++) //Analyze user's password and determine what kind of chars it contains
             {
                 if ((usingDigits == false) && (isdigit(password[j])))
-                {
                     usingDigits = true;
-                    if (verbose)
-                        printf("Using digits\n");
-                }
 
                 if ((usingLower == false) && (islower(password[j])))
-                {
                     usingLower = true;
-                    if (verbose)
-                        printf("Using lower case\n");
-                }
 
                 if ((usingUpper == false) && (isupper(password[j])))
-                {
                     usingUpper = true;
-                    if (verbose)
-                        printf("Using UPPER CASE\n");
-                }
 
                 if ((usingSpecialChars == false) && (isSpecialChar(password[j], &usingSpecialChars)))
-                {
                     usingSpecialChars = true;
-                    if (verbose)
-                        printf("Using special characters\n");
-                }
             }
         }
 
         if ((customPwd == false) && (args[i] == "-d"))
-        {
             usingDigits = true;
-            if (verbose)
-                printf("Using digits\n");
-        }
 
         else if ((customPwd == false) && (args[i] == "-l"))
-        {
             usingLower = true;
-            if (verbose)
-                printf("Using lower case\n");
-        }
 
         else if ((customPwd == false) && (args[i] == "-u"))
-        {
             usingUpper = true;
-            if (verbose)
-                printf("Using UPPER CASE\n");
-        }
 
         else if ((customPwd == false) && (args[i] == "-s"))
-        {
             usingSpecialChars = true;
-            if (verbose)
-                printf("Using special characters\n");
-        }
 
         else if (args[i] == "--nostore")
-        {
             nostore = true;
-        }
     }
 
-    if (verbose && nostore == true)
-        printf("Guesses will not be stored\n");
-    else if (verbose && nostore == false)
-        printf("Guesses will be stored\n");
+    if (verbose)
+        verbosePrint();
 
     printf("Hit ENTER to begin guessing\n");
     scanf("%c", &input);
