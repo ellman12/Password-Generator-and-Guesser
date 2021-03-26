@@ -40,6 +40,9 @@
         "xstring": "cpp",
         "xtr1common": "cpp",
         "xutility": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "cctype": "cpp",
+        "ratio": "cpp",
+        "string": "cpp"
     }
 }

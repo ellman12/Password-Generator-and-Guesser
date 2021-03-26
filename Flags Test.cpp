@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm> //Used for finding guessed passwords in the vector
 #include <string>
 #include <chrono> //Measuring time to guess passwords: https://www.geeksforgeeks.org/measure-execution-time-function-cpp/
 using namespace std;
@@ -24,6 +25,7 @@ int actualAttempts = 0; //Total with duplicates counted
 
 string password;
 string seedString;
+int length = 0;
 unsigned long long seedULL = 0;
 
 vector<char> usableChars; //The chars that could be in the password
@@ -235,10 +237,6 @@ bool isSpecialChar(char c, bool *usingSpecialChars)
     return false;
 }
 
-//TODO
-// string generatePassword()
-// {}
-
 //Initialize this thing. Original version had to redo this EVERY time a password needed to be generated. No need for that
 void usableCharsInit()
 {
@@ -295,15 +293,51 @@ void usableCharsInit()
     }
 }
 
-void guessPwdWithStoring()
+string generatePassword()
+{
+    for (int i = 0; i < length; i++) //Fill the password string with random chars
+    {
+        password += usableChars[rand() % usableChars.size()];
+        cout << "i: " << i << "  length: " << password.length() << endl;
+    }
+    return password;
+}
+
+void guessPwdWithStoring(string correctPassword)
 {
     using namespace std::chrono;
 
     auto start = high_resolution_clock::now();
 
-    //TODO: password generation
+    vector<string> guessesdPasswords;
+    string passwordGuess;
+
+    while (passwordGuess != correctPassword)
+    {
+        printf("hi\n");
+        passwordGuess = generatePassword();
+        cout << "Guessing password: " << passwordGuess << "\t"
+             << "Total Attempts: " << totalAttempts << "\t"
+             << "Actual Attempts: " << actualAttempts << endl;
+
+        if (find(guessesdPasswords.begin(), guessesdPasswords.end(), passwordGuess) != guessesdPasswords.end())
+        {
+            cout << "\tPassword " << passwordGuess << " is already in the vector" << endl;
+            totalAttempts++;
+        }
+        else
+        {
+            guessesdPasswords.push_back(passwordGuess);
+            totalAttempts++;
+            actualAttempts++;
+            printf("\n");
+        }
+    }
 
     auto stop = high_resolution_clock::now();
+
+    cout << "\nThe computer guessed the password " << passwordGuess << " after " << --totalAttempts << " total attempts and after " << --actualAttempts << "attempts!\n"
+         << endl;
 
     cout << "Duration:" << endl;
     auto durationNano = duration_cast<nanoseconds>(stop - start);
@@ -325,7 +359,7 @@ void guessPwdWithStoring()
     cout << "Hours: " << durationHour.count() << endl;
 }
 
-void guessPwdWithoutStoring()
+void guessPwdWithoutStoring(string correctPassword)
 {
     using namespace std::chrono;
 
@@ -480,6 +514,7 @@ int main(int argc, char *argv[])
     }
 
     usableCharsInit();
+    length = password.length();
 
     if (verbose)
         verbosePrint();
@@ -488,7 +523,7 @@ int main(int argc, char *argv[])
     scanf("%c", &input);
 
     if (nostore)
-        guessPwdWithoutStoring();
+        guessPwdWithoutStoring(password);
     else
-        guessPwdWithStoring();
+        guessPwdWithStoring(password);
 }
