@@ -5,21 +5,40 @@
 using namespace std;
 
 bool customPwd = false;
+
+//The way the 3 seed args should work is that the one entered last will be used over any others. E.g, -s1234 --time --noseed. --noseed would be picked.
+bool noSeed = false;
+bool timeSeed = true;
+bool customSeed = false;
+
 bool usingDigits = false;
 bool usingLower = false;
 bool usingUpper = false;
 bool usingSpecialChars = false;
+
 bool verbose = false;
 bool nostore = false;
+
 int totalAttempts = 0;  //Total attempts without counting duplicates
 int actualAttempts = 0; //Total with duplicates counted
 string password;
+string seedString;
+unsigned long long seedULL;
 
 //If user specifies -v, print out stuff so they know what's happening under the hood
 void verbosePrint()
 {
     if (customPwd == true)
         cout << "The password you entered is: " << password << endl;
+
+    if (noSeed == true)
+        cout << "The default srand() seed will be used" << endl;
+
+    if (timeSeed == true)
+        cout << "time(0) [" << time(0) << "] is the seed" << endl;
+
+    if (customSeed == true)
+        cout << "The seed string you entered is: " << seedString << "\nConverted to an unsigned long long: " << seedULL << "\n";
 
     if (usingDigits == true)
         printf("Using digits\n");
@@ -37,35 +56,42 @@ void verbosePrint()
         printf("Guesses will not be stored\n");
     else
         printf("Guesses will be stored\n");
+    printf("\n");
 }
 
-void printline(int length)
+void printline(const int LENGTH)
 {
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < LENGTH; i++)
         printf("-");
     printf("\n");
 }
 
-void help()
+void help() //Shows the different flags, what they do, and how to use them
 {
-    const int length = 96;
-    printline(length);
-    printf("Password Generator and Guesser (PGG) Flags\n");
-    printline(length);
-    printf("\n");
+    const int LENGTH = 97;
+    printline(LENGTH);
+    printf("Password Generator and Guesser (PGG) Flags\n\n");
+
     printf("Control Password Generation\n");
-    printf("-p\tInput your own (p)assword after the -p. Causes d, l, u, and s to not have any effect\n");
-    printf("-d\tUse (d)igits in the generated password\n");
-    printf("-l\tUse (l)owercase a-z in the generated password\n");
-    printf("-u\tUse (u)ppercase A-Z in the generated password\n");
-    printf("-s\tUse (s)pecial characters in the generated password\n\n");
+    printf("-d  Use digits in the generated password\n");
+    printf("-l  Use lowercase a-z in the generated password\n");
+    printf("-u  Use uppercase A-Z in the generated password\n");
+    printf("-s  Use special characters in the generated password\n");
+    printf("-p  Input your own password after the -p. Causes d, l, u, and s to be set automatically\n\n");
+
+    printf("Control rand() Seed\n");
+    printf("--noseed    Default srand value (same numbers generated every time)\n");
+    printf("--time      Use time(0) as the seed (default if neither specified)\n");
+    printf("-s<digits>  Custom seed value\n\n");
+
     printf("Control Password Guessing\n");
     printf("--store    Store guesses to avoid duplicating. This can also help make guessing faster (Default)\n");
     printf("--nostore  Don't store them. Can help avoid running out of memory if the password is long\n");
+
     printf("\nMisc\n");
-    printf("-v\t(Verbose) Tell you what and when things happen under the hood\n");
+    printf("-v\t(Verbose) Tells you what things happen under the hood and when\n");
     printf("--help\tShows this\n");
-    printline(length);
+    printline(LENGTH);
     printf("\n");
 }
 
@@ -261,7 +287,7 @@ int main(int argc, char *argv[])
     if (argc < 2)
     {
         help();
-        printf("\nPassword Generator and Guesser is going to need at least 1 parameter\n\n");
+        printf("\nPassword Generator and Guesser (PGG) is going to need at least 1 parameter\n\n");
         exit(EXIT_FAILURE);
     }
 
@@ -309,7 +335,7 @@ int main(int argc, char *argv[])
             }
         }
 
-        if ((customPwd == false) && (args[i] == "-d"))
+        else if ((customPwd == false) && (args[i] == "-d"))
             usingDigits = true;
 
         else if ((customPwd == false) && (args[i] == "-l"))
@@ -323,6 +349,36 @@ int main(int argc, char *argv[])
 
         else if (args[i] == "--nostore")
             nostore = true;
+
+        else if (args[i] == "--noseed")
+        {
+            noSeed = true;
+            timeSeed = false;
+            customSeed = false;
+        }
+
+        else if (args[i] == "--time")
+        {
+            srand(time(0));
+            timeSeed = true;
+            noSeed = false;
+            customSeed = false;
+        }
+
+        else if ((args[i][0] == '-') && (args[i][1] == 's'))
+        {
+            customSeed = true;
+            noSeed = false;
+            timeSeed = false;
+
+            seedString.resize(args[i].length() - 2); //Make large enough to store the number (-2 because of -s)
+
+            for (int j = 2; j < args[i].length(); j++) //Strip the -s and store the rest
+                seedString[j - 2] = args[i][j];
+
+            seedULL = stoull(seedString); //Make number and apply the custom seed
+            std::srand(seedULL);
+        }
     }
 
     if (verbose)
