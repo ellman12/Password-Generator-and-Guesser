@@ -36,18 +36,6 @@ int genRandNum(int min, int max)
 //If user specifies -v, print out stuff so they know what's happening under the hood
 void verbosePrint()
 {
-    if (customPwd == true)
-        cout << "The password you entered is: " << password << endl;
-
-    if (noSeed == true)
-        cout << "The default srand() seed will be used" << endl;
-
-    if (timeSeed == true)
-        cout << "time(0) [" << time(0) << "] is the seed" << endl;
-
-    if (customSeed == true)
-        cout << "The seed string you entered is: " << seedString << "\nConverted to an unsigned long long: " << seedULL << "\n";
-
     if (usingDigits == true)
         printf("Using digits\n");
 
@@ -59,6 +47,18 @@ void verbosePrint()
 
     if (usingSpecialChars == true)
         printf("Using special chars\n");
+
+    if (customPwd == true)
+        cout << "The custom password you entered is: " << password << endl;
+
+    if (noSeed == true)
+        cout << "The default srand() seed will be used" << endl;
+
+    if (timeSeed == true)
+        cout << "time(0) [" << time(0) << "] is the seed" << endl;
+
+    if (customSeed == true)
+        cout << "The custom seed string you entered is: " << seedString << endl;
 
     if (nostore == true)
         printf("Guesses will not be stored\n");
@@ -456,12 +456,30 @@ int main(int argc, char *argv[])
         }
     }
 
+    //Obviously we need at least 1 of these to be true
     if (usingDigits == false && usingLower == false && usingUpper == false && usingSpecialChars == false)
     {
-        cout << "-d -l -u and -" << endl;
+        char input;
+        cout << "[WARNING] -d -l -u and -s are all omitted. Randomly decide which to use? [Y/n]";
+        scanf("%c", &input);
+        if (input != 'n')
+        {
+            while (usingDigits == false || usingLower == false || usingUpper == false || usingSpecialChars == false)
+            {
+                usingDigits = rand() % 2;
+                usingLower = rand() % 2;
+                usingUpper = rand() % 2;
+                usingSpecialChars = rand() % 2;
+            }
+        }
+        else
+        {
+            printf("Exiting...\n");
+            exit(EXIT_FAILURE);
+        }
     }
 
-        usableCharsInit();
+    usableCharsInit();
 
     if (verbose)
         verbosePrint();
