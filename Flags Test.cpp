@@ -3,6 +3,15 @@
 #include <string>
 using namespace std;
 
+bool customPwd = false;
+bool usingDigits = false;
+bool usingLower = false;
+bool usingUpper = false;
+bool usingSpecialChars = false;
+bool verbose = false;
+bool nostore = false;
+string password;
+
 void printline(int length)
 {
     for (int i = 0; i < length; i++)
@@ -177,15 +186,7 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    bool customPwd = false;
-    bool usingDigits = false;
-    bool usingLower = false;
-    bool usingUpper = false;
-    bool usingSpecialChars = false;
-    bool verbose = false;
-    bool nostore = false;
     char input;
-    string password;
     vector<string> args;
     vector<string> usableChars;
 
