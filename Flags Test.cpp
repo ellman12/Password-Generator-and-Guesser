@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <chrono> //Measuring time to guess passwords: https://www.geeksforgeeks.org/measure-execution-time-function-cpp/
 using namespace std;
 
 bool customPwd = false;
@@ -197,10 +198,62 @@ bool isSpecialChar(char c, bool *usingSpecialChars)
 
 void guessPwdWithStoring()
 {
+    using namespace std::chrono;
+
+    auto start = high_resolution_clock::now();
+
+    //TODO: password generation
+
+    auto stop = high_resolution_clock::now();
+
+    cout << "Duration:" << endl;
+    auto durationNano = duration_cast<nanoseconds>(stop - start);
+    cout << "Nanoseconds: " << durationNano.count() << endl;
+
+    auto durationMicro = duration_cast<microseconds>(stop - start);
+    cout << "Microseconds: " << durationMicro.count() << endl;
+
+    auto durationMilli = duration_cast<milliseconds>(stop - start);
+    cout << "Milliseconds: " << durationMilli.count() << endl;
+
+    auto durationSec = duration_cast<seconds>(stop - start);
+    cout << "Seconds: " << durationSec.count() << endl;
+
+    auto durationMin = duration_cast<minutes>(stop - start);
+    cout << "Minutes: " << durationMin.count() << endl;
+
+    auto durationHour = duration_cast<hours>(stop - start);
+    cout << "Hours: " << durationHour.count() << endl;
 }
 
 void guessPwdWithoutStoring()
 {
+    using namespace std::chrono;
+
+    auto start = high_resolution_clock::now();
+
+    //TODO: password generation
+
+    auto stop = high_resolution_clock::now();
+
+    cout << "Duration:" << endl;
+    auto durationNano = duration_cast<nanoseconds>(stop - start);
+    cout << "Nanoseconds: " << durationNano.count() << endl;
+
+    auto durationMicro = duration_cast<microseconds>(stop - start);
+    cout << "Microseconds: " << durationMicro.count() << endl;
+
+    auto durationMilli = duration_cast<milliseconds>(stop - start);
+    cout << "Milliseconds: " << durationMilli.count() << endl;
+
+    auto durationSec = duration_cast<seconds>(stop - start);
+    cout << "Seconds: " << durationSec.count() << endl;
+
+    auto durationMin = duration_cast<minutes>(stop - start);
+    cout << "Minutes: " << durationMin.count() << endl;
+
+    auto durationHour = duration_cast<hours>(stop - start);
+    cout << "Hours: " << durationHour.count() << endl;
 }
 
 int main(int argc, char *argv[])
