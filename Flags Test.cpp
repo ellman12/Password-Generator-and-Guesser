@@ -28,6 +28,11 @@ unsigned long long seedULL = 0;
 
 vector<char> usableChars; //The chars that could be in the password
 
+int genRandNum(int min, int max)
+{
+    return rand() % (max + 1 - min) + min;
+}
+
 //If user specifies -v, print out stuff so they know what's happening under the hood
 void verbosePrint()
 {
