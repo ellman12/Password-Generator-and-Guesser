@@ -188,9 +188,9 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    char input;
-    vector<string> args;
-    vector<string> usableChars;
+    char input;                 //Used for the "press ENTER" thing later on
+    vector<string> args;        //Cmd line args
+    vector<string> usableChars; //The chars that could be in the password
 
     for (int i = 0; i < argc; i++) //Add to vector for ease of use
         args.push_back(argv[i]);
@@ -279,10 +279,13 @@ int main(int argc, char *argv[])
         else if (args[i] == "--nostore")
         {
             nostore = true;
-            if (verbose)
-                printf("Guesses will not be stored\n");
         }
     }
+
+    if (verbose && nostore == true)
+        printf("Guesses will not be stored\n");
+    else if (verbose && nostore == false)
+        printf("Guesses will be stored\n");
 
     printf("Hit ENTER to begin guessing\n");
     scanf("%c", &input);
