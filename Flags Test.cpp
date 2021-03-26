@@ -3,22 +3,32 @@
 #include <string>
 using namespace std;
 
+void printline(int length)
+{
+    for (int i = 0; i < length; i++)
+        printf("-");
+    printf("\n");
+}
+
 void help()
 {
-    printf("----------------------------------------------------\n");
-    printf("Password Generator and Guesser\n");
-    printf("----------------------------------------------------\n");
-    printf("Password Generation Flags\n");
-    printf("----------------------------------------------------\n");
-    printf("-p\tInput your own (p)assword after the -p. Causes d, l, u, and s to not have any effect.\n");
+    const int length = 92;
+    printline(length);
+    printf("Password Generator and Guesser (PGG) Flags\n");
+    printline(length);
+    printf("Control Password Generation\n");
+    printline(length);
+    printf("-p\tInput your own (p)assword after the -p. Causes d, l, u, and s to not have any effect\n");
     printf("-d\tUse (d)igits in the generated password\n");
     printf("-l\tUse (l)owercase a-z in the generated password\n");
     printf("-u\tUse (u)ppercase A-Z in the generated password\n");
     printf("-s\tUse (s)pecial characters in the generated password\n");
-    printf("-v\t(Verbose) Tell you which of these are toggled (if any)\n");
-    printf("----------------------------------------------------\n");
+    printline(length);
+    printf("Misc\n");
+    printline(length);
+    printf("-v\t(Verbose) Tell you what and when things happen under the hood\n");
     printf("--help\tShows this\n");
-    printf("----------------------------------------------------\n");
+    printline(length);
 }
 
 bool isSpecialChar(char c, bool *usingSpecialChars)
