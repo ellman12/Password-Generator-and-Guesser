@@ -13,22 +13,32 @@ void printline(int length)
 void help()
 {
     const int length = 92;
+    //printline(length);
     printline(length);
     printf("Password Generator and Guesser (PGG) Flags\n");
+    printf("\n");
+    //printline(length);
     printline(length);
     printf("Control Password Generation\n");
-    printline(length);
     printf("-p\tInput your own (p)assword after the -p. Causes d, l, u, and s to not have any effect\n");
     printf("-d\tUse (d)igits in the generated password\n");
     printf("-l\tUse (l)owercase a-z in the generated password\n");
     printf("-u\tUse (u)ppercase A-Z in the generated password\n");
     printf("-s\tUse (s)pecial characters in the generated password\n");
+    //printline(length);
+    printf("\n");
+    //printline(length);
+    printline(length);
+    printf("Control Password Guessing\n");
+    printf("--nostore:\nDon't store guesses to avoid duplication. This can help avoid running out of memory when trying to guess a long password, but can also potentially make guessing faster\n");
+    //printline(length);
+    printf("\n");
     printline(length);
     printf("Misc\n");
-    printline(length);
     printf("-v\t(Verbose) Tell you what and when things happen under the hood\n");
     printf("--help\tShows this\n");
-    printline(length);
+    //printline(length);
+    exit(EXIT_SUCCESS);
 }
 
 bool isSpecialChar(char c, bool *usingSpecialChars)
@@ -188,10 +198,7 @@ int main(int argc, char *argv[])
     for (int i = 0; i < argc; i++) //Apply command line args
     {
         if (args[i] == "--help")
-        {
             help();
-            exit(EXIT_SUCCESS);
-        }
 
         if ((args[i][0] == '-') && (args[i][1] == 'p'))
         {
