@@ -4,8 +4,6 @@
 #include <chrono> //Measuring time to guess passwords: https://www.geeksforgeeks.org/measure-execution-time-function-cpp/
 using namespace std;
 
-bool customPwd = false;
-
 //The way the 3 seed args should work is that the one entered last will be used over any others. E.g, -s1234 --time --noseed. --noseed would be picked.
 bool noSeed = false;
 bool timeSeed = true;
@@ -18,12 +16,17 @@ bool usingSpecialChars = false;
 
 bool verbose = false;
 bool nostore = false;
+bool customPwd = false;
+bool showChars = false;
 
 int totalAttempts = 0;  //Total attempts without counting duplicates
 int actualAttempts = 0; //Total with duplicates counted
+
 string password;
 string seedString;
-unsigned long long seedULL;
+unsigned long long seedULL = 0;
+
+vector<char> usableChars; //The chars that could be in the password
 
 //If user specifies -v, print out stuff so they know what's happening under the hood
 void verbosePrint()
@@ -56,6 +59,14 @@ void verbosePrint()
         printf("Guesses will not be stored\n");
     else
         printf("Guesses will be stored\n");
+
+    if (showChars == true)
+    {
+        printf("Chars a password could contain:\n");
+        for (int i = 0; i < usableChars.size(); i++)
+            cout << usableChars.at(i) << ' ';
+    }
+
     printf("\n");
 }
 
@@ -82,7 +93,7 @@ void help() //Shows the different flags, what they do, and how to use them
     printf("Control rand() Seed\n");
     printf("--noseed    Default srand value (same numbers generated every time)\n");
     printf("--time      Use time(0) as the seed (default if neither specified)\n");
-    printf("-s<digits>  Custom seed value\n\n");
+    printf("-S<digits>  Custom seed value\n\n");
 
     printf("Control Password Guessing\n");
     printf("--store    Store guesses to avoid duplicating. This can also help make guessing faster (Default)\n");
@@ -91,6 +102,7 @@ void help() //Shows the different flags, what they do, and how to use them
     printf("\nMisc\n");
     printf("-v\t(Verbose) Tells you what things happen under the hood and when\n");
     printf("--help\tShows this\n");
+    printf("--showchars\tPrint out what chars a generated password could contain\n");
     printline(LENGTH);
     printf("\n");
 }
@@ -218,9 +230,65 @@ bool isSpecialChar(char c, bool *usingSpecialChars)
     return false;
 }
 
+//TODO
 // string generatePassword()
-// {
-// }
+// {}
+
+//Initialize this thing. Original version had to redo this EVERY time a password needed to be generated. No need for that
+void usableCharsInit()
+{
+    if (usingDigits == true)
+    {
+        for (int i = 0; i < 10; i++)
+            usableChars.push_back(i + '0');
+    }
+
+    if (usingLower)
+    {
+        for (int i = 0; i < 26; i++)
+            usableChars.push_back('a' + i);
+    }
+
+    if (usingUpper)
+    {
+        for (int i = 0; i < 26; i++)
+            usableChars.push_back('A' + i);
+    }
+
+    if (usingSpecialChars)
+    {
+        //I couldn't think of a better way to do this :(
+        usableChars.push_back('`');
+        usableChars.push_back('~');
+        usableChars.push_back('!');
+        usableChars.push_back('@');
+        usableChars.push_back('#');
+        usableChars.push_back('$');
+        usableChars.push_back('%');
+        usableChars.push_back('^');
+        usableChars.push_back('&');
+        usableChars.push_back('*');
+        usableChars.push_back('(');
+        usableChars.push_back(')');
+        usableChars.push_back('-');
+        usableChars.push_back('_');
+        usableChars.push_back('=');
+        usableChars.push_back('+');
+        usableChars.push_back('?');
+        usableChars.push_back('[');
+        usableChars.push_back(']');
+        usableChars.push_back('{');
+        usableChars.push_back('}');
+        usableChars.push_back('/');
+        usableChars.push_back('\\');
+        usableChars.push_back('|');
+        usableChars.push_back('<');
+        usableChars.push_back('>');
+        usableChars.push_back(',');
+        usableChars.push_back('.');
+        usableChars.push_back('"');
+    }
+}
 
 void guessPwdWithStoring()
 {
@@ -291,9 +359,8 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    char input;                 //Used for the "press ENTER" thing later on
-    vector<string> args;        //Cmd line args
-    vector<string> usableChars; //The chars that could be in the password
+    char input;          //Used for the "press ENTER" thing later on
+    vector<string> args; //Cmd line args
 
     for (int i = 0; i < argc; i++) //Add to vector for ease of use
         args.push_back(argv[i]);
@@ -350,6 +417,9 @@ int main(int argc, char *argv[])
         else if (args[i] == "--nostore")
             nostore = true;
 
+        else if (args[i] == "--showchars")
+            showChars = true;
+
         else if (args[i] == "--noseed")
         {
             noSeed = true;
@@ -365,21 +435,28 @@ int main(int argc, char *argv[])
             customSeed = false;
         }
 
-        else if ((args[i][0] == '-') && (args[i][1] == 's'))
+        else if ((args[i][0] == '-') && (args[i][1] == 'S') && (args[i][2] != '\0'))
         {
             customSeed = true;
             noSeed = false;
             timeSeed = false;
 
-            seedString.resize(args[i].length() - 2); //Make large enough to store the number (-2 because of -s)
+            seedString.resize(args[i].length() - 2); //Make large enough to store the number (-2 because of -S)
 
-            for (int j = 2; j < args[i].length(); j++) //Strip the -s and store the rest
+            for (int j = 2; j < args[i].length(); j++) //Strip the -S and store the rest
                 seedString[j - 2] = args[i][j];
 
             seedULL = stoull(seedString); //Make number and apply the custom seed
             std::srand(seedULL);
         }
     }
+
+    if (usingDigits == false && usingLower == false && usingUpper == false && usingSpecialChars == false)
+    {
+        cout << "-d -l -u and -" << endl;
+    }
+
+        usableCharsInit();
 
     if (verbose)
         verbosePrint();
