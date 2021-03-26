@@ -12,32 +12,25 @@ void printline(int length)
 
 void help()
 {
-    const int length = 92;
-    //printline(length);
-    // printline(length);
+    const int length = 96;
+    printline(length);
     printf("Password Generator and Guesser (PGG) Flags\n");
+    printline(length);
     printf("\n");
-    //printline(length);
-    // printline(length);
     printf("Control Password Generation\n");
     printf("-p\tInput your own (p)assword after the -p. Causes d, l, u, and s to not have any effect\n");
     printf("-d\tUse (d)igits in the generated password\n");
     printf("-l\tUse (l)owercase a-z in the generated password\n");
     printf("-u\tUse (u)ppercase A-Z in the generated password\n");
-    printf("-s\tUse (s)pecial characters in the generated password\n");
-    //printline(length);
-    printf("\n");
-    //printline(length);
-    // printline(length);
+    printf("-s\tUse (s)pecial characters in the generated password\n\n");
     printf("Control Password Guessing\n");
-    printf("--nostore\nDon't store guesses to avoid duplication. This can help avoid running out of memory when trying to guess a long password, but can also potentially make guessing faster\n");
-    //printline(length);
-    printf("\n");
-    // printline(length);
-    printf("Misc\n");
+    printf("--store    Store guesses to avoid duplicating. This can also help make guessing faster (Default)\n");
+    printf("--nostore  Don't store them. Can help avoid running out of memory if the password is long\n");
+    printf("\nMisc\n");
     printf("-v\t(Verbose) Tell you what and when things happen under the hood\n");
     printf("--help\tShows this\n");
-    //printline(length);
+    printline(length);
+    printf("\n");
 }
 
 bool isSpecialChar(char c, bool *usingSpecialChars)
@@ -163,6 +156,18 @@ bool isSpecialChar(char c, bool *usingSpecialChars)
     return false;
 }
 
+// string generatePassword()
+// {
+// }
+
+void guessPwdWithStoring()
+{
+}
+
+void guessPwdWithoutStoring()
+{
+}
+
 int main(int argc, char *argv[])
 {
     if (argc < 2)
@@ -178,7 +183,8 @@ int main(int argc, char *argv[])
     bool usingUpper = false;
     bool usingSpecialChars = false;
     bool verbose = false;
-
+    bool nostore = false;
+    char input;
     string password;
     vector<string> args;
     vector<string> usableChars;
@@ -186,23 +192,19 @@ int main(int argc, char *argv[])
     for (int i = 0; i < argc; i++) //Add to vector for ease of use
         args.push_back(argv[i]);
 
-    for (int i = 0; i < argc; i++) //First determine if verbose
+    for (int i = 0; i < argc; i++) //First determine if verbose or if --help was specified
     {
         if (args[i] == "-v")
-        {
             verbose = true;
-            break;
+        else if (args[i] == "--help")
+        {
+            help();
+            exit(EXIT_SUCCESS);
         }
     }
 
     for (int i = 0; i < argc; i++) //Apply command line args
     {
-        if (args[i] == "--help")
-        {
-            help();
-            exit(EXIT_SUCCESS);
-        }
-
         if ((args[i][0] == '-') && (args[i][1] == 'p'))
         {
             password.resize(args[i].length() - 2); //Make large enough to store user's password (-2 because of -p)
@@ -250,25 +252,40 @@ int main(int argc, char *argv[])
                 printf("Using digits\n");
         }
 
-        if ((customPwd == false) && (args[i] == "-l"))
+        else if ((customPwd == false) && (args[i] == "-l"))
         {
             usingLower = true;
             if (verbose)
                 printf("Using lower case\n");
         }
 
-        if ((customPwd == false) && (args[i] == "-u"))
+        else if ((customPwd == false) && (args[i] == "-u"))
         {
             usingUpper = true;
             if (verbose)
                 printf("Using UPPER CASE\n");
         }
 
-        if ((customPwd == false) && (args[i] == "-s"))
+        else if ((customPwd == false) && (args[i] == "-s"))
         {
             usingSpecialChars = true;
             if (verbose)
                 printf("Using special characters\n");
         }
+
+        else if (args[i] == "--nostore")
+        {
+            nostore = true;
+            if (verbose)
+                printf("Guesses will not be stored\n");
+        }
     }
+
+    printf("Hit ENTER to begin guessing\n");
+    scanf("%c", &input);
+
+    if (nostore)
+        guessPwdWithoutStoring();
+    else
+        guessPwdWithStoring();
 }
