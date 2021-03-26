@@ -10,6 +10,8 @@ bool usingUpper = false;
 bool usingSpecialChars = false;
 bool verbose = false;
 bool nostore = false;
+int totalAttempts = 0;  //Total attempts without counting duplicates
+int actualAttempts = 0; //Total with duplicates counted
 string password;
 
 void printline(int length)
