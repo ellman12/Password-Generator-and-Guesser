@@ -441,6 +441,7 @@ int main(int argc, char *argv[])
         if ((args[i][0] == '-') && (args[i][1] == 'p'))
         {
             password.resize(args[i].length() - 2); //Make large enough to store user's password (-2 because of -p)
+            length = password.length();
             customPwd = true;
 
             for (int j = 2; j < args[i].length(); j++) //Strip the -p and store the rest in password
@@ -474,30 +475,30 @@ int main(int argc, char *argv[])
         else if ((customPwd == false) && (args[i] == "-s"))
             usingSpecialChars = true;
 
-        else if (args[i][0] == '-' && args[i][1] == 'L')
+        else if ((args[i][0] == '-') && (args[i][1] == 'L'))
         {
             string tmp;
-            tmp.resize(10);
+            tmp.resize(args[i].length() - 2);
             for (int j = 2; j < args[i].length(); j++)
                 tmp[j - 2] = args[i][j];
 
             length = stoi(tmp);
 
             if (verbose)
-                cout << "Length specified by you as: " << length << endl;
+                cout << "Length specified by you is: " << length << endl;
         }
 
-        else if (args[i][0] == '-' && args[i][1] == 'M')
+        else if ((args[i][0] == '-') && (args[i][1] == 'M'))
         {
             string tmp;
-            tmp.resize(10);
+            tmp.resize(args[i].length() - 2);
             for (int j = 2; j < args[i].length(); j++)
                 tmp[j - 2] = args[i][j];
 
-            maxLength = stoi(tmp);
+            password = stoi(tmp);
 
             if (verbose)
-                cout << "Max password length specified by you as: " << maxLength << endl;
+                cout << "Max password length specified by you is: " << maxLength << endl;
         }
 
         else if (args[i] == "--nostore")
@@ -544,7 +545,13 @@ int main(int argc, char *argv[])
             cout << "No length specified as arg. Generating rand length of: " << length << endl;
     }
 
-    password.resize(length); //Resize to store how many chars we want
+    if (customPwd == false)
+    {
+        if (verbose)
+            printf("No password arg detected. Generating password\n");
+        password.resize(length); //Resize to store how many chars we want
+        password = generatePassword();
+    }
 
     //TODO: remove?
     //Obviously we need at least 1 of these to be true
@@ -571,13 +578,12 @@ int main(int argc, char *argv[])
     }
 
     usableCharsInit();
-    password = generatePassword(); //Computer will try and guess this
-    length = password.length();
+    // length = password.length();
 
     if (verbose)
         verbosePrint();
 
-    cout << "Hit ENTER and the computer will attempt to guess the " << length << " character password " << password << endl;
+    cout << "Hit ENTER and the computer will attempt to guess the " << password.length() << " character password " << password << endl;
     scanf("%c", &input);
 
     if (nostore)

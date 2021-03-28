@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Build and debug Flags Test",
+            "name": "PGG Build",
             "type": "cppdbg",
             "request": "launch",
-            "program": "C:/Users/Elliott/Documents/GitHub/Password-Generator-and-Guesser/Flags Test.exe",
-            "args": ["-d"],
+            "program": "C:/Users/Elliott/Documents/GitHub/Password-Generator-and-Guesser/PGG.exe",
+            "args": ["-p1234"],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "C:/Users/Elliott/Documents/GitHub/Password-Generator-and-Guesser/",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
