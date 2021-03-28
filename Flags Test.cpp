@@ -8,7 +8,7 @@ using namespace std;
 //The way the 3 seed args should work is that the one entered last will be used over any others. E.g, -s1234 --time --noseed. --noseed would be picked.
 bool noSeed = false;
 bool timeSeed = true;
-bool customSeed = false;
+bool usingCustomSeed = false;
 
 bool usingDigits = false;
 bool usingLower = false;
@@ -20,13 +20,14 @@ bool nostore = false;
 bool customPwd = false;
 bool showChars = false;
 
-int totalAttempts = 0;  //Total attempts without counting duplicates
-int actualAttempts = 0; //Total with duplicates counted
+int totalAttempts = 1;  //Total attempts without counting duplicates (i.e., guessing a password more than once)
+int actualAttempts = 1; //Total with duplicates counted
 
 string password;
 string seedString;
 int length = 0;
-unsigned long long seedULL = 0;
+int maxLength = 50; //User can change this
+unsigned long long customSeed = 0;
 
 vector<char> usableChars; //The chars that could be in the password
 
@@ -38,14 +39,15 @@ int genRandNum(int min, int max)
 //If user specifies -v, print out stuff so they know what's happening under the hood
 void verbosePrint()
 {
+    printf("\nPassword generation:\n");
     if (usingDigits == true)
         printf("Using digits\n");
 
     if (usingLower == true)
-        printf("Using lower\n");
+        printf("Using lowercase\n");
 
     if (usingUpper == true)
-        printf("Using upper\n");
+        printf("Using uppercase\n");
 
     if (usingSpecialChars == true)
         printf("Using special chars\n");
@@ -53,13 +55,14 @@ void verbosePrint()
     if (customPwd == true)
         cout << "The custom password you entered is: " << password << endl;
 
+    printf("\nSeed info:\n");
     if (noSeed == true)
         cout << "The default srand() seed will be used" << endl;
 
     if (timeSeed == true)
         cout << "time(0) [" << time(0) << "] is the seed" << endl;
 
-    if (customSeed == true)
+    if (usingCustomSeed == true)
         cout << "The custom seed string you entered is: " << seedString << endl;
 
     if (nostore == true)
@@ -88,14 +91,17 @@ void help() //Shows the different flags, what they do, and how to use them
 {
     const int LENGTH = 97;
     printline(LENGTH);
-    printf("Password Generator and Guesser (PGG) Flags\n\n");
+    printf("Password Generator and Guesser (PGG) Flags\n");
+    printf("The order of these should not affect anything\n\n");
 
     printf("Control Password Generation\n");
     printf("-d  Use digits in the generated password\n");
     printf("-l  Use lowercase a-z in the generated password\n");
     printf("-u  Use uppercase A-Z in the generated password\n");
     printf("-s  Use special characters in the generated password\n");
-    printf("-p  Input your own password after the -p. Causes d, l, u, and s to be set automatically\n\n");
+    printf("-p  Input your own password after the -p. Causes d, l, u, and s to be set automatically\n");
+    printf("-L  Force the generated password to be a certain length\n");
+    printf("-M  If no length given, generate random length between 1 and M\n\n");
 
     printf("Control rand() Seed\n");
     printf("--noseed    Default srand value (same numbers generated every time)\n");
@@ -295,12 +301,14 @@ void usableCharsInit()
 
 string generatePassword()
 {
-    for (int i = 0; i < length; i++) //Fill the password string with random chars
+    string newPassword;
+    newPassword.resize(length);
+
+    for (int i = 0; i < length; i++) //Fill the new password string with random chars
     {
-        password += usableChars[rand() % usableChars.size()];
-        cout << "i: " << i << "  length: " << password.length() << endl;
+        newPassword[i] = usableChars[rand() % usableChars.size()];
     }
-    return password;
+    return newPassword;
 }
 
 void guessPwdWithStoring(string correctPassword)
@@ -310,53 +318,57 @@ void guessPwdWithStoring(string correctPassword)
     auto start = high_resolution_clock::now();
 
     vector<string> guessesdPasswords;
-    string passwordGuess;
+    string guess;
 
-    while (passwordGuess != correctPassword)
+    while (guess != correctPassword)
     {
-        printf("hi\n");
-        passwordGuess = generatePassword();
-        cout << "Guessing password: " << passwordGuess << "\t"
-             << "Total Attempts: " << totalAttempts << "\t"
-             << "Actual Attempts: " << actualAttempts << endl;
+        guess = generatePassword();
+        cout << "Guess: " << guess << '\t'
+             << "Total Attempts: " << totalAttempts << '\t'
+             << "Without Dupes: " << actualAttempts << '\t';
 
-        if (find(guessesdPasswords.begin(), guessesdPasswords.end(), passwordGuess) != guessesdPasswords.end())
+        if (find(guessesdPasswords.begin(), guessesdPasswords.end(), guess) != guessesdPasswords.end())
         {
-            cout << "\tPassword " << passwordGuess << " is already in the vector" << endl;
+            printf("Already in the vector");
             totalAttempts++;
         }
         else
         {
-            guessesdPasswords.push_back(passwordGuess);
+            guessesdPasswords.push_back(guess);
             totalAttempts++;
             actualAttempts++;
-            printf("\n");
         }
+        printf("\n");
     }
 
     auto stop = high_resolution_clock::now();
 
-    cout << "\nThe computer guessed the password " << passwordGuess << " after " << --totalAttempts << " total attempts and after " << --actualAttempts << "attempts!\n"
-         << endl;
+    printf("\n");
+    printline(97);
+    cout << password << " was guessed after " << --totalAttempts << " attempts with duplicates and " << --actualAttempts << " attempts without duplicates\n";
+    printline(97);
 
+    printline(9);
     cout << "Duration:" << endl;
+    printline(9);
+
     auto durationNano = duration_cast<nanoseconds>(stop - start);
-    cout << "Nanoseconds: " << durationNano.count() << endl;
+    cout << durationNano.count() << "\tNanoseconds" << endl;
 
     auto durationMicro = duration_cast<microseconds>(stop - start);
-    cout << "Microseconds: " << durationMicro.count() << endl;
+    cout << durationMicro.count() << "\tMicroseconds" << endl;
 
     auto durationMilli = duration_cast<milliseconds>(stop - start);
-    cout << "Milliseconds: " << durationMilli.count() << endl;
+    cout << durationMilli.count() << "\tMilliseconds" << endl;
 
     auto durationSec = duration_cast<seconds>(stop - start);
-    cout << "Seconds: " << durationSec.count() << endl;
+    cout << durationSec.count() << "\tSeconds" << endl;
 
     auto durationMin = duration_cast<minutes>(stop - start);
-    cout << "Minutes: " << durationMin.count() << endl;
+    cout << durationMin.count() << "\tMinutes" << endl;
 
     auto durationHour = duration_cast<hours>(stop - start);
-    cout << "Hours: " << durationHour.count() << endl;
+    cout << durationHour.count() << "\tHours" << endl;
 }
 
 void guessPwdWithoutStoring(string correctPassword)
@@ -365,28 +377,41 @@ void guessPwdWithoutStoring(string correctPassword)
 
     auto start = high_resolution_clock::now();
 
-    //TODO: password generation
+    string guess;
+
+    while (guess != correctPassword)
+    {
+        guess = generatePassword();
+        cout << "Guess: " << guess << '\t' << "Total Attempts: " << totalAttempts++ << '\n';
+    }
 
     auto stop = high_resolution_clock::now();
 
+    printf("\n");
+    printline(69);
+    cout << password << " was guessed after " << --totalAttempts << " attempts\n";
+    printline(69);
+
+    printline(9);
     cout << "Duration:" << endl;
+    printline(9);
     auto durationNano = duration_cast<nanoseconds>(stop - start);
-    cout << "Nanoseconds: " << durationNano.count() << endl;
+    cout << durationNano.count() << "\tNanoseconds" << endl;
 
     auto durationMicro = duration_cast<microseconds>(stop - start);
-    cout << "Microseconds: " << durationMicro.count() << endl;
+    cout << durationMicro.count() << "\tMicroseconds" << endl;
 
     auto durationMilli = duration_cast<milliseconds>(stop - start);
-    cout << "Milliseconds: " << durationMilli.count() << endl;
+    cout << durationMilli.count() << "\tMilliseconds" << endl;
 
     auto durationSec = duration_cast<seconds>(stop - start);
-    cout << "Seconds: " << durationSec.count() << endl;
+    cout << durationSec.count() << "\tSeconds" << endl;
 
     auto durationMin = duration_cast<minutes>(stop - start);
-    cout << "Minutes: " << durationMin.count() << endl;
+    cout << durationMin.count() << "\tMinutes" << endl;
 
     auto durationHour = duration_cast<hours>(stop - start);
-    cout << "Hours: " << durationHour.count() << endl;
+    cout << durationHour.count() << "\tHours" << endl;
 }
 
 int main(int argc, char *argv[])
@@ -399,9 +424,9 @@ int main(int argc, char *argv[])
     }
 
     char input;          //Used for the "press ENTER" thing later on
-    vector<string> args; //Cmd line args
+    vector<string> args; //Store the cmd line args in a vector for ease of use
 
-    for (int i = 0; i < argc; i++) //Add to vector for ease of use
+    for (int i = 0; i < argc; i++) //Add to vector
         args.push_back(argv[i]);
 
     for (int i = 0; i < argc; i++) //First determine if verbose or if --help was specified
@@ -453,6 +478,32 @@ int main(int argc, char *argv[])
         else if ((customPwd == false) && (args[i] == "-s"))
             usingSpecialChars = true;
 
+        else if (args[i][0] == '-' && args[i][1] == 'L')
+        {
+            string tmp;
+            tmp.resize(10);
+            for (int j = 2; j < args[i].length(); j++)
+                tmp[j - 2] = args[i][j];
+
+            length = stoi(tmp);
+
+            if (verbose)
+                cout << "Length specified by you as: " << length << endl;
+        }
+
+        else if (args[i][0] == '-' && args[i][1] == 'M')
+        {
+            string tmp;
+            tmp.resize(10);
+            for (int j = 2; j < args[i].length(); j++)
+                tmp[j - 2] = args[i][j];
+
+            maxLength = stoi(tmp);
+
+            if (verbose)
+                cout << "Max password length specified by you as: " << maxLength << endl;
+        }
+
         else if (args[i] == "--nostore")
             nostore = true;
 
@@ -463,7 +514,7 @@ int main(int argc, char *argv[])
         {
             noSeed = true;
             timeSeed = false;
-            customSeed = false;
+            usingCustomSeed = false;
         }
 
         else if (args[i] == "--time")
@@ -471,12 +522,12 @@ int main(int argc, char *argv[])
             srand(time(0));
             timeSeed = true;
             noSeed = false;
-            customSeed = false;
+            usingCustomSeed = false;
         }
 
         else if ((args[i][0] == '-') && (args[i][1] == 'S') && (args[i][2] != '\0'))
         {
-            customSeed = true;
+            usingCustomSeed = true;
             noSeed = false;
             timeSeed = false;
 
@@ -485,11 +536,21 @@ int main(int argc, char *argv[])
             for (int j = 2; j < args[i].length(); j++) //Strip the -S and store the rest
                 seedString[j - 2] = args[i][j];
 
-            seedULL = stoull(seedString); //Make number and apply the custom seed
-            std::srand(seedULL);
+            customSeed = stoull(seedString); //Make number and apply the custom seed
+            std::srand(customSeed);
         }
     }
 
+    if (length <= 0) //If user doesn't specify length
+    {
+        length = genRandNum(1, maxLength);
+        if (verbose)
+            cout << "No length specified as arg. Generating rand length of: " << length << endl;
+    }
+
+    password.resize(length); //Resize to store how many chars we want
+
+    //TODO: remove?
     //Obviously we need at least 1 of these to be true
     if (usingDigits == false && usingLower == false && usingUpper == false && usingSpecialChars == false)
     {
@@ -514,12 +575,13 @@ int main(int argc, char *argv[])
     }
 
     usableCharsInit();
+    password = generatePassword(); //Computer will try and guess this
     length = password.length();
 
     if (verbose)
         verbosePrint();
 
-    printf("Hit ENTER to begin guessing\n");
+    cout << "Hit ENTER and the computer will attempt to guess the " << length << " character password " << password << endl;
     scanf("%c", &input);
 
     if (nostore)

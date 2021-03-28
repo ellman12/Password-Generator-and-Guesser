@@ -44,5 +44,6 @@
         "cctype": "cpp",
         "ratio": "cpp",
         "string": "cpp"
-    }
+    },
+    "C_Cpp.dimInactiveRegions": true
 }
