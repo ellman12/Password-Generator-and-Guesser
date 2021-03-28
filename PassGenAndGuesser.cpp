@@ -4,6 +4,7 @@
 //This is a program where the computer tries to guess a "password(?)", and records how many attempts it took.
 //It can also use a vector to track duplicate guesses so it doesn't re-guess something it already guessed. This can be disabled.
 //WARNING: fairly intensive on your CPU!
+//This is the original program. PGG.cpp is the actually good one.
 #include <iostream>
 #include <vector>
 #include <algorithm> //Used for finding guessed passwords in the vector

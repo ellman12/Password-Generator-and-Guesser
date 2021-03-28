@@ -1,5 +1,4 @@
 //https://www.srcmake.com/home/multithreading
-
 #include <iostream>
 #include <thread>
 #include <chrono>
