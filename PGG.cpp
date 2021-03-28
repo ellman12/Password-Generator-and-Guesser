@@ -296,7 +296,7 @@ void usableCharsInit()
 
 string generatePassword()
 {
-    string newPassword;
+    string newPassword = "";
     newPassword.resize(length);
 
     for (int i = 0; i < length; i++) //Fill the new password string with random chars
@@ -340,7 +340,7 @@ void guessPwdWithStoring(string correctPassword)
 
     printf("\n");
     printline(97);
-    cout << password << " was guessed after " << --totalAttempts << " attempts with duplicates and " << --actualAttempts << " attempts without duplicates\n";
+    cout << password << " was guessed after " << --totalAttempts << " attempts with duplicates and " << --actualAttempts << " attempts without duplicates.\nThere were " << totalAttempts - actualAttempts << " duplicate guesses.\n";
     printline(97);
 
     printline(9);
@@ -348,22 +348,22 @@ void guessPwdWithStoring(string correctPassword)
     printline(9);
 
     auto durationNano = duration_cast<nanoseconds>(stop - start);
-    cout << durationNano.count() << "\tNanoseconds" << endl;
+    cout << (double)durationNano.count() << "\tNanoseconds" << endl;
 
-    auto durationMicro = duration_cast<microseconds>(stop - start);
-    cout << durationMicro.count() << "\tMicroseconds" << endl;
+    double durationMicro = durationNano.count() / 1000;
+    cout << durationMicro << "\tMicroseconds" << endl;
 
-    auto durationMilli = duration_cast<milliseconds>(stop - start);
-    cout << durationMilli.count() << "\tMilliseconds" << endl;
+    double durationMilli = durationMicro / 1000;
+    cout << durationMilli << "\tMilliseconds" << endl;
 
-    auto durationSec = duration_cast<seconds>(stop - start);
-    cout << durationSec.count() << "\tSeconds" << endl;
+    double durationSec = durationMilli / 1000;
+    cout << durationSec << "\tSeconds" << endl;
 
-    auto durationMin = duration_cast<minutes>(stop - start);
-    cout << durationMin.count() << "\tMinutes" << endl;
+    double durationMin = durationSec / 60;
+    cout << durationMin << "\tMinutes" << endl;
 
-    auto durationHour = duration_cast<hours>(stop - start);
-    cout << durationHour.count() << "\tHours" << endl;
+    double durationHour = durationSec / 60;
+    cout << durationHour << "\tHours" << endl;
 }
 
 void guessPwdWithoutStoring(string correctPassword)
@@ -390,23 +390,24 @@ void guessPwdWithoutStoring(string correctPassword)
     printline(9);
     cout << "Duration:" << endl;
     printline(9);
+
     auto durationNano = duration_cast<nanoseconds>(stop - start);
-    cout << durationNano.count() << "\tNanoseconds" << endl;
+    cout << (double)durationNano.count() << "\tNanoseconds" << endl;
 
-    auto durationMicro = duration_cast<microseconds>(stop - start);
-    cout << durationMicro.count() << "\tMicroseconds" << endl;
+    double durationMicro = durationNano.count() / 1000;
+    cout << durationMicro << "\tMicroseconds" << endl;
 
-    auto durationMilli = duration_cast<milliseconds>(stop - start);
-    cout << durationMilli.count() << "\tMilliseconds" << endl;
+    double durationMilli = durationMicro / 1000;
+    cout << durationMilli << "\tMilliseconds" << endl;
 
-    auto durationSec = duration_cast<seconds>(stop - start);
-    cout << durationSec.count() << "\tSeconds" << endl;
+    double durationSec = durationMilli / 1000;
+    cout << durationSec << "\tSeconds" << endl;
 
-    auto durationMin = duration_cast<minutes>(stop - start);
-    cout << durationMin.count() << "\tMinutes" << endl;
+    double durationMin = durationSec / 60;
+    cout << durationMin << "\tMinutes" << endl;
 
-    auto durationHour = duration_cast<hours>(stop - start);
-    cout << durationHour.count() << "\tHours" << endl;
+    double durationHour = durationSec / 60;
+    cout << durationHour << "\tHours" << endl;
 }
 
 int main(int argc, char *argv[])
