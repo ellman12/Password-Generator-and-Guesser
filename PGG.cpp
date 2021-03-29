@@ -538,6 +538,8 @@ int main(int argc, char *argv[])
         }
     }
 
+    usableCharsInit();
+
     if (length <= 0) //If user doesn't specify length
     {
         length = genRandNum(1, maxLength);
@@ -552,33 +554,6 @@ int main(int argc, char *argv[])
         password.resize(length); //Resize to store how many chars we want
         password = generatePassword();
     }
-
-    //TODO: remove?
-    //Obviously we need at least 1 of these to be true
-    if (usingDigits == false && usingLower == false && usingUpper == false && usingSpecialChars == false)
-    {
-        char input;
-        cout << "[WARNING] -d -l -u and -s are all omitted. Randomly decide which to use? [Y/n]";
-        scanf("%c", &input);
-        if (input != 'n')
-        {
-            while (usingDigits == false || usingLower == false || usingUpper == false || usingSpecialChars == false)
-            {
-                usingDigits = rand() % 2;
-                usingLower = rand() % 2;
-                usingUpper = rand() % 2;
-                usingSpecialChars = rand() % 2;
-            }
-        }
-        else
-        {
-            printf("Exiting...\n");
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    usableCharsInit();
-    // length = password.length();
 
     if (verbose)
         verbosePrint();
