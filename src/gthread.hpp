@@ -30,6 +30,14 @@ public:
     void usableCharsInit(bool usingDigits, bool usingLower, bool usingUpper, bool usingSpecialChars);
 };
 
+int gthread::totalAttempts = 1;
+int gthread::actualAttempts = 1;
+int gthread::passLen = passLen;
+string gthread::correctPassword = correctPassword;
+bool gthread::storeGuesses = storeGuesses;
+vector<string> gthread::guesses;
+vector<char> gthread::usableChars;
+
 //Constructor
 gthread::gthread(int passLen, string correctPassword, bool storeGuesses)
 {
@@ -38,6 +46,9 @@ gthread::gthread(int passLen, string correctPassword, bool storeGuesses)
     gthread::passLen = passLen;
     gthread::correctPassword = correctPassword;
     gthread::storeGuesses = storeGuesses;
+
+    vector<string> guesses;
+    vector<char> usableChars; //The chars that could be in the password
     printf("Thread created\n");
 }
 
