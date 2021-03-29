@@ -25,8 +25,8 @@ class gthread //Guesser thread
 public:
     int ID;
     thread gthr;
-    int totalAttempts = 1;           //Total guess attempts without counting duplicates (i.e., guessing a password more than once)
-    int actualAttempts = 1;          //Total with duplicates counted
+    static int totalAttempts;        //Total guess attempts without counting duplicates (i.e., guessing a password more than once)
+    int actualAttempts;              //Total with duplicates counted
     static vector<char> usableChars; //The chars that could be in the password
     static int numThreads;
     static int passLen;
@@ -35,22 +35,16 @@ public:
     static vector<gthread> threads;
 
     gthread();
+    gthread(int passLen, string correctPassword);
     string generatePassword(int len);
-    string generatePassword(int len, vector<char> usableChars);
     void guessPwdWithoutStoring(int len, string correctPassword);
     void guessPwdWithStoring(int len, string correctPassword);
 };
 
-string gthread::generatePassword(int len, vector<char> usableChars)
+gthread::gthread()
 {
-    string newPassword = "";
-    newPassword.resize(len);
-
-    for (int i = 0; i < len; i++) //Fill the new password string with random chars
-    {
-        newPassword[i] = usableChars[rand() % usableChars.size()];
-    }
-    return newPassword;
+    totalAttempts = 1;
+    actualAttempts = 1;
 }
 
 void gthread::guessPwdWithStoring(int len, string correctPassword)
