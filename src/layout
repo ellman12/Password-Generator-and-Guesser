@@ -1,0 +1,5 @@
+gthread file holds thread stuff
+
+hpp holds funcs and stuff (rely more on params)
+
+cpp holds main

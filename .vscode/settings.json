@@ -43,7 +43,8 @@
         "chrono": "cpp",
         "cctype": "cpp",
         "ratio": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "thread": "cpp"
     },
     "C_Cpp.dimInactiveRegions": true
 }
