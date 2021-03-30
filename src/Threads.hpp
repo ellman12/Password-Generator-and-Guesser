@@ -8,7 +8,7 @@
 #include <vector>
 #include <thread>
 #include <chrono> //Measuring time taken to guess passwords: https://www.geeksforgeeks.org/measure-execution-time-function-cpp/
-#include "PGG Rewrite.hpp"
+// #include "PGG Rewrite.hpp"
 using namespace std;
 
 //There all need to be shared between threads
@@ -26,6 +26,7 @@ vector<char> usableChars; //The chars that could be in the password
 
 string genPwd(int len, vector<char> usableChars)
 {
+    cout << "size: " << usableChars.size() << endl;
     string newPassword = "";
     newPassword.resize(len);
 
@@ -37,8 +38,10 @@ string genPwd(int len, vector<char> usableChars)
 }
 
 //Determine which chars a password could contain
-void usableCharsInit(bool usingDigits, bool usingLower, bool usingUpper, bool usingSpecialChars, vector<char> &usableChars)
+vector<char> usableCharsInit(bool usingDigits, bool usingLower, bool usingUpper, bool usingSpecialChars)
 {
+    vector<char> usableChars;
+
     if (usingDigits)
     {
         for (int i = 0; i < 10; i++)
@@ -89,6 +92,8 @@ void usableCharsInit(bool usingDigits, bool usingLower, bool usingUpper, bool us
         usableChars.push_back('.');
         usableChars.push_back('"');
     }
+
+    return usableChars;
 }
 
 void guessPwdWStore(int threadID, int len, string correctPassword, vector<char> usableChars)

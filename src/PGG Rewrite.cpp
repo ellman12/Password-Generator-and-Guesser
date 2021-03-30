@@ -42,7 +42,7 @@ void verbosePrint()
         printf("Using special chars\n");
 
     if (customPwd == true)
-        cout << "The custom password you entered is: " << correctPassword << endl;
+        cout << "The custom " << passLen << " character password you entered is: " << correctPassword << endl;
 
     printf("\nSeed info:\n");
     if (noSeed == true)
@@ -57,7 +57,7 @@ void verbosePrint()
     if (nostore == true)
         printf("Guesses will not be stored\n");
     else
-        printf("Guesses will be stored\n");
+        printf("Guesses will be stored (default)\n");
 
     if (showChars == true)
     {
@@ -78,9 +78,10 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
+    char input; //Used for the "press ENTER" thing later on
+
     //GOOD WORKING STUFF ↓
     // srand(time(0));
-    // usableCharsInit(true, false, false, false, usableChars);
 
     // for (int i = 0; i < usableChars.size(); i++)
     //     cout << usableChars[i];
@@ -210,6 +211,30 @@ int main(int argc, char *argv[])
             std::srand(customSeed);
         }
     }
+
+    usableChars = usableCharsInit(usingDigits, usingLower, usingUpper, usingSpecialChars);
+
+    if ((passLen <= 0) && (customPwd == false)) //If user doesn't specify length or password)
+    {
+        passLen = genRandNum(1, maxLength);
+        cout << "No length specified as arg. Generating rand length of: " << passLen << endl;
+        cout << "Generating custom password" << endl;
+        correctPassword = genPwd(passLen, usableChars); //Computer will try and guess this
+    }
+
+    //If user doesn't enter their own
+    // if (customPwd == false)
+    // {
+
+    // }
+
+    passLen = correctPassword.length();
+
+    correctPassword.resize(passLen); //Resize to store how many chars we want
+
     if (verbose)
         verbosePrint();
+
+    cout << "Hit ENTER and the computer will attempt to guess the " << passLen << " character password " << correctPassword << endl;
+    scanf("%c", &input);
 }
