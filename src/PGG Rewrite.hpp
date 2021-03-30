@@ -3,10 +3,8 @@
 
 //Misc funcs for main file
 #include <iostream>
-// #include <string>
-// #include <vector>
-// #include <chrono>
-// using namespace std;
+#include "Threads.hpp"
+using namespace std;
 
 // std::string generatePassword(int len, std::vector<char> usableChars)
 // {
@@ -24,7 +22,7 @@
 //start and stop start in nanoseconds
 // void convertAndPrintTimes(int start, int stop)
 // {
-    // using namespace chrono;
+// using namespace chrono;
 //
 // }
 

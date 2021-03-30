@@ -49,6 +49,9 @@
     "C_Cpp.dimInactiveRegions": true,
     //https://stackoverflow.com/questions/30140112/how-do-i-hide-certain-files-from-the-sidebar-in-visual-studio-code
     "files.exclude": {
-        "src/*.gch": true
+        "src/*.gch": true,
+        "**/*.exe": true,
+        ".gitignore": true,
+        "README.md": true
     }
 }
