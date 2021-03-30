@@ -10,145 +10,154 @@
 #include "PGG Rewrite.hpp"
 using namespace std;
 
-class gthread //Guesser thread
-{
-public:
-    //TODO: it doesn't like these static things
-    static int totalAttempts;  //Total guess attempts without counting duplicates (i.e., guessing a password more than once)
-    static int actualAttempts; //Total with duplicates counted
-    static int passLen;
-    static string correctPassword;
-    static bool storeGuesses;
-    static vector<string> guesses;
-    static vector<char> usableChars; //The chars that could be in the password
+//Password guesser thread. If there are multiple instances, they will work together with their static members to guess passwords.
+// class gthread
+// {
+// public:
+// static int totalAttempts;  //Total guess attempts without counting duplicates (i.e., guessing a password more than once)
+// static int actualAttempts; //Total with duplicates counted
+// static int passLen;
+// static string correctPassword;
+// static bool storeGuesses;
+// static vector<string> guesses;
+// static vector<char> usableChars; //The chars that could be in the password
 
-    gthread(int passLen, string correctPassword, bool storeGuesses); //Constructor; creates actual thread object
-    string genPwd(int len);
-    void guessPwd(bool storePasswords);
-    void guessPwdWoutStore(int len, string correctPassword); //TODO: Computer can be given length or not
-    void guessPwdWStore(int len, string correctPassword);
-    void usableCharsInit(bool usingDigits, bool usingLower, bool usingUpper, bool usingSpecialChars);
-};
+// gthread();
+// gthread(int passLen, string correctPassword, bool storeGuesses);
+// string genPwd(int len);
+// void guessPwd(bool storePasswords);
+// void guessPwdWoutStore(int len, string correctPassword); //TODO: Computer can be given length or not. If len <= 0 figure out on its own
+// void guessPwdWStore(int len, string correctPassword);
+// void usableCharsInit(bool usingDigits, bool usingLower, bool usingUpper, bool usingSpecialChars);
+// };
 
-int gthread::totalAttempts = 1;
-int gthread::actualAttempts = 1;
-int gthread::passLen = passLen;
-string gthread::correctPassword = correctPassword;
-bool gthread::storeGuesses = storeGuesses;
-vector<string> gthread::guesses;
-vector<char> gthread::usableChars;
+//I haven't the slightest idea why these are necessary here but it gets rid of "undefined reference" errors for some reason ¯\_(ツ)_/¯
+// int gthread::totalAttempts = 1;
+// int gthread::actualAttempts = 1;
+// int gthread::passLen;
+// string gthread::correctPassword = correctPassword;
+// bool gthread::storeGuesses = storeGuesses;
+// vector<string> gthread::guesses;
+// vector<char> gthread::usableChars;
+// static void guessPwd(bool storePasswords);
 
-//Constructor
-gthread::gthread(int passLen, string correctPassword, bool storeGuesses)
-{
-    gthread::totalAttempts = 1;
-    gthread::actualAttempts = 1;
-    gthread::passLen = passLen;
-    gthread::correctPassword = correctPassword;
-    gthread::storeGuesses = storeGuesses;
+//Constructors
+// gthread::gthread()
+// {
+//     thread thr(&gthread::guessPwd, true);
+// }
 
-    vector<string> guesses;
-    vector<char> usableChars; //The chars that could be in the password
-    printf("Thread created\n");
-}
+// gthread::gthread(int passLen, string correctPassword, bool storeGuesses)
+// {
+//     thread thr(&gthread::guessPwd, true);
+//     gthread::passLen = passLen;
+//     gthread::correctPassword = correctPassword;
+//     gthread::storeGuesses = storeGuesses;
+//     printf("gthread created\n");
+// }
 
-string gthread::genPwd(int len)
+static int totalAttempts = 1;  //Total guess attempts without counting duplicates (i.e., guessing a password more than once)
+static int actualAttempts = 1; //Total with duplicates counted
+int threadWinner = 0;          //Which thread gets it first
+static int passLen;
+static string correctPassword;
+static bool storeGuesses;
+static bool notGuessed = true;
+static bool printOnce = true; //Used for printing duration
+static vector<string> guesses;
+static vector<char> usableChars; //The chars that could be in the password
+
+string genPwd(int len, vector<char> usableChars)
 {
     string newPassword = "";
     newPassword.resize(len);
 
     for (int i = 0; i < len; i++) //Fill the new password string with random chars
     {
-        newPassword[i] = gthread::usableChars[rand() % gthread::usableChars.size()];
+        newPassword[i] = usableChars[rand() % usableChars.size()];
     }
     return newPassword;
 }
 
 //Determine which chars a password could contain
-void gthread::usableCharsInit(bool usingDigits, bool usingLower, bool usingUpper, bool usingSpecialChars)
+void usableCharsInit(bool usingDigits, bool usingLower, bool usingUpper, bool usingSpecialChars, vector<char> &usableChars)
 {
     if (usingDigits)
     {
         for (int i = 0; i < 10; i++)
-            gthread::usableChars.push_back(i + '0');
+            usableChars.push_back(i + '0');
     }
 
     if (usingLower)
     {
         for (int i = 0; i < 26; i++)
-            gthread::usableChars.push_back('a' + i);
+            usableChars.push_back('a' + i);
     }
 
     if (usingUpper)
     {
         for (int i = 0; i < 26; i++)
-            gthread::usableChars.push_back('A' + i);
+            usableChars.push_back('A' + i);
     }
 
     if (usingSpecialChars)
     {
         //I couldn't think of a better way to do this :(
-        gthread::usableChars.push_back('`');
-        gthread::usableChars.push_back('~');
-        gthread::usableChars.push_back('!');
-        gthread::usableChars.push_back('@');
-        gthread::usableChars.push_back('#');
-        gthread::usableChars.push_back('$');
-        gthread::usableChars.push_back('%');
-        gthread::usableChars.push_back('^');
-        gthread::usableChars.push_back('&');
-        gthread::usableChars.push_back('*');
-        gthread::usableChars.push_back('(');
-        gthread::usableChars.push_back(')');
-        gthread::usableChars.push_back('-');
-        gthread::usableChars.push_back('_');
-        gthread::usableChars.push_back('=');
-        gthread::usableChars.push_back('+');
-        gthread::usableChars.push_back('?');
-        gthread::usableChars.push_back('[');
-        gthread::usableChars.push_back(']');
-        gthread::usableChars.push_back('{');
-        gthread::usableChars.push_back('}');
-        gthread::usableChars.push_back('/');
-        gthread::usableChars.push_back('|');
-        gthread::usableChars.push_back('<');
-        gthread::usableChars.push_back('>');
-        gthread::usableChars.push_back(',');
-        gthread::usableChars.push_back('.');
-        gthread::usableChars.push_back('"');
+        usableChars.push_back('`');
+        usableChars.push_back('~');
+        usableChars.push_back('!');
+        usableChars.push_back('@');
+        usableChars.push_back('#');
+        usableChars.push_back('$');
+        usableChars.push_back('%');
+        usableChars.push_back('^');
+        usableChars.push_back('&');
+        usableChars.push_back('*');
+        usableChars.push_back('(');
+        usableChars.push_back(')');
+        usableChars.push_back('-');
+        usableChars.push_back('_');
+        usableChars.push_back('=');
+        usableChars.push_back('+');
+        usableChars.push_back('?');
+        usableChars.push_back('[');
+        usableChars.push_back(']');
+        usableChars.push_back('{');
+        usableChars.push_back('}');
+        usableChars.push_back('/');
+        usableChars.push_back('|');
+        usableChars.push_back('<');
+        usableChars.push_back('>');
+        usableChars.push_back(',');
+        usableChars.push_back('.');
+        usableChars.push_back('"');
     }
 }
 
-void gthread::guessPwd(bool storePasswords)
+void guessPwdWStore(int len, string correctPassword, vector<char> usableChars)
 {
-    if (storePasswords)
-        gthread::guessPwdWStore(passLen, correctPassword);
-    else
-        gthread::guessPwdWoutStore(passLen, correctPassword);
-}
-
-void gthread::guessPwdWStore(int len, string correctPassword)
-{
+    printf("begin guess\n");
     using namespace chrono;
     string guess;
+    correctPassword.resize(passLen);
 
     auto start = high_resolution_clock::now(); //Start the timer
 
     while (guess != correctPassword)
     {
-        guess = genPwd(len);
-        cout << "Guess: " << guess << '\t' << "Total Attempts: " << gthread::totalAttempts << '\t' << "Without Dupes: " << actualAttempts << '\t';
+        guess = genPwd(len, usableChars);
+        cout << "Guess: " << guess << '\t' << "Total Attempts: " << totalAttempts << '\t' << "Without Dupes: " << actualAttempts << '\t';
 
-        if (find(gthread::guesses.begin(), gthread::guesses.end(), guess) != gthread::guesses.end()) //Check for duplicates
+        if (find(guesses.begin(), guesses.end(), guess) != guesses.end()) //Check for duplicates
         {
             printf("Already in the vector");
-            gthread::totalAttempts++;
+            totalAttempts++;
         }
         else
         {
-            gthread::guesses.push_back(guess);
-            gthread::totalAttempts++;
-            gthread::actualAttempts++;
+            guesses.push_back(guess);
+            totalAttempts++;
+            actualAttempts++;
         }
         printf("\n");
     }
@@ -157,7 +166,7 @@ void gthread::guessPwdWStore(int len, string correctPassword)
 
     printf("\n");
     printline(97);
-    cout << guess << " was guessed after " << --gthread::totalAttempts << " attempts with duplicates and " << --gthread::actualAttempts << " attempts without duplicates.\nThere were " << gthread::totalAttempts - gthread::actualAttempts << " duplicate guesses.\n";
+    cout << guess << " was guessed after " << --totalAttempts << " attempts with duplicates and " << --actualAttempts << " attempts without duplicates.\nThere were " << totalAttempts - actualAttempts << " duplicate guesses.\n";
     printline(97);
 
     printline(9);
@@ -183,47 +192,69 @@ void gthread::guessPwdWStore(int len, string correctPassword)
     cout << durationHour << "\tHours" << endl;
 }
 
-void gthread::guessPwdWoutStore(int len, string correctPassword)
+void guessPwdWoutStore(int threadID, int len, string correctPassword, vector<char> usableChars)
 {
     using namespace chrono;
-    string guess;
+    string guess = genPwd(len, usableChars);
 
     auto start = high_resolution_clock::now();
 
-    while (guess != correctPassword)
+    while (notGuessed == true)
     {
-        guess = genPwd(len);
-        cout << "Guess: " << guess << '\t' << "Total Attempts: " << gthread::totalAttempts++ << '\n';
+        guess = genPwd(len, usableChars);
+        cout << "Thread #" << threadID << "\tGuess: " << guess << '\t' << "Total Attempts: " << totalAttempts++ << "\tthreadWinner: #" << threadWinner << '\n';
+
+        if (guess == correctPassword)
+        {
+            notGuessed = false;
+            threadWinner = threadID;
+            break;
+        }
     }
 
     auto stop = high_resolution_clock::now();
 
-    printf("\n");
-    printline(69);
-    cout << guess << " was guessed after " << --gthread::totalAttempts << " attempts\n";
-    printline(69);
+    threadWinner = threadID;
 
-    printline(9);
-    cout << "Duration:" << endl;
-    printline(9);
+    ::correctPassword = correctPassword;
 
-    auto durationNano = duration_cast<nanoseconds>(stop - start);
-    cout << (double)durationNano.count() << "\tNanoseconds" << endl;
+    if (printOnce == true)
+    {
+        printOnce = false;
+        auto durationNano = duration_cast<nanoseconds>(stop - start);
+        cout << (double)durationNano.count() << "\tNanoseconds" << endl;
 
-    double durationMicro = durationNano.count() / 1000;
-    cout << durationMicro << "\tMicroseconds" << endl;
+        double durationMicro = durationNano.count() / 1000;
+        cout << durationMicro << "\tMicroseconds" << endl;
 
-    double durationMilli = durationMicro / 1000;
-    cout << durationMilli << "\tMilliseconds" << endl;
+        double durationMilli = durationMicro / 1000;
+        cout << durationMilli << "\tMilliseconds" << endl;
 
-    double durationSec = durationMilli / 1000;
-    cout << durationSec << "\tSeconds" << endl;
+        double durationSec = durationMilli / 1000;
+        cout << durationSec << "\tSeconds" << endl;
 
-    double durationMin = durationSec / 60;
-    cout << durationMin << "\tMinutes" << endl;
+        double durationMin = durationSec / 60;
+        cout << durationMin << "\tMinutes" << endl;
 
-    double durationHour = durationSec / 60;
-    cout << durationHour << "\tHours" << endl;
+        double durationHour = durationSec / 60;
+        cout << durationHour << "\tHours" << endl;
+    }
 }
+
+// void guessPwd(bool storePasswords, string correctPassword)
+// {
+//     int totalAttempts;  //Total guess attempts without counting duplicates (i.e., guessing a password more than once)
+//     int actualAttempts; //Total with duplicates counted
+//     int passLen;
+//     // string correctPassword;
+//     // bool storeGuesses;
+//     vector<string> guesses;
+//     vector<char> usableChars; //The chars that could be in the password
+
+//     if (storePasswords)
+//         guessPwdWStore(passLen, correctPassword, usableChars);
+//     else
+//         guessPwdWoutStore(passLen, correctPassword, usableChars);
+// }
 
 #endif
