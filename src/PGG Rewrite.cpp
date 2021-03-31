@@ -233,7 +233,6 @@ int main(int argc, char *argv[])
     //Just to verify we have the correct length
     //Mostly for helping to idiot-proof it in case the user uses both -L and -p
     passLen = correctPassword.length();
-    correctPassword.resize(passLen); //Resize to store how many chars we want
 
     if (verbose)
         verbosePrint();
