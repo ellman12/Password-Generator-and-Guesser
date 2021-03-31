@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
 
     for (int i = 0; i < argc; i++) //Apply command line args
     {
-        if ((args[i][0] == '-') && (args[i][1] == 'p'))
+        if ((args[i][0] == '-') && (args[i][1] == 'p') && (args[i][2] != '\0'))
         {
             correctPassword.resize(args[i].length() - 2); //Make large enough to store user's password (-2 because of -p)
             customPwd = true;
@@ -208,6 +208,13 @@ int main(int argc, char *argv[])
         {
             justGenerating = true;
         }
+
+        else if (!args[i].empty()) //This somehow works
+        {
+            help();
+            cout << "Unknown flag \"" << args[i] << "\" at index " << i << endl;
+            exit(EXIT_FAILURE);
+        }
     }
 
     if (timeSeed == true)
@@ -215,7 +222,7 @@ int main(int argc, char *argv[])
 
     usableChars = usableCharsInit(usingDigits, usingLower, usingUpper, usingSpecialChars);
 
-    if (passLen <= 0)
+    if (passLen <= 0 && customPwd == false)
     {
         passLen = genRandNum(1, maxLength);
         cout << "No user-specified password length. Generating rand length of: " << passLen << endl;
