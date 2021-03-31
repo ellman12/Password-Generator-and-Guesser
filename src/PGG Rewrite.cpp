@@ -58,6 +58,7 @@ void verbosePrint()
     if (usingCustomSeed == true)
         cout << "The custom seed string you entered is: " << seedString << endl;
 
+    printf("\nOther:\n");
     if (nostore == true)
         printf("Guesses will not be stored\n");
     else
@@ -239,4 +240,6 @@ int main(int argc, char *argv[])
 
     cout << "Hit ENTER and the computer will attempt to guess the " << passLen << " character password " << correctPassword << endl;
     scanf("%c", &input);
+
+    //TODO: begin guessing
 }
