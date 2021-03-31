@@ -19,6 +19,7 @@ bool verbose = false;
 bool nostore = false;
 bool customPwd = false;
 bool showChars = false;
+bool justGenerating = false; //If the user just wants to generate a password
 
 string seedString;
 int maxLength = 50; //User can change this
@@ -53,7 +54,7 @@ void verbosePrint()
         cout << "The default srand() seed will be used" << endl;
 
     if (timeSeed == true)
-        cout << "time(0) [" << time(0) << "] is the seed" << endl;
+        cout << "time(0) [" << time(0) << "] is the seed (default)" << endl;
 
     if (usingCustomSeed == true)
         cout << "The custom seed string you entered is: " << seedString << endl;
@@ -201,7 +202,7 @@ int main(int argc, char *argv[])
             usingCustomSeed = false;
         }
 
-        else if ((args[i][0] == '-') && (args[i][1] == 'S') && (args[i][2] != '\0'))
+        else if ((args[i][0] == '-') && (args[i][1] == 'S') && (args[i][2] != '\0')) //Custom seed (-S)
         {
             usingCustomSeed = true;
             noSeed = false;
@@ -214,6 +215,11 @@ int main(int argc, char *argv[])
 
             customSeed = stoull(seedString); //Make number and apply the custom seed
             std::srand(customSeed);
+        }
+
+        else if (args[i] == "--genpwd")
+        {
+            justGenerating = true;
         }
     }
 
@@ -229,6 +235,13 @@ int main(int argc, char *argv[])
     {
         correctPassword = genPwd(passLen, usableChars);
         cout << "No user-specified password. Generating random one: " << correctPassword << endl;
+    }
+
+    if (justGenerating == true && customPwd == false)
+    {
+        printf("Here is your newly generated password:\n");
+        cout << correctPassword << endl;
+        exit(EXIT_SUCCESS);
     }
 
     //Just to verify we have the correct length

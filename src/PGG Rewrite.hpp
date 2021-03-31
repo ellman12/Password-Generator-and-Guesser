@@ -41,7 +41,7 @@ void printline(const int LENGTH)
 
 void help() //Shows the different flags, what they do, and how to use them
 {
-    const int LENGTH = 97;
+    const int LENGTH = 111;
     printline(LENGTH);
     printf("Password Generator and Guesser (PGG) Flags\n");
     printf("The order of these should not affect anything\n\n");
@@ -65,8 +65,9 @@ void help() //Shows the different flags, what they do, and how to use them
     printf("--nostore  Don't store them. Can help avoid running out of memory if the password is long\n");
 
     printf("\nMisc\n");
-    printf("-v\t(Verbose) Tells you what things happen under the hood and when\n");
-    printf("--help\tShows this\n");
+    printf("--help\t\tShows this\n");
+    printf("--genpwd\tJust generates a password; no guessing, etc. Use normal flags like -d, -L, etc. for generation\n");
+    printf("-v\t\t(Verbose) Tells you what things happen under the hood and when\n");
     printf("--showchars\tPrint out what chars a generated password could contain\n");
     printline(LENGTH);
     printf("\n");
