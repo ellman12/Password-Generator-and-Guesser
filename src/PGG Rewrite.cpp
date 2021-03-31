@@ -46,6 +46,8 @@ void verbosePrint()
     if (usingSpecialChars == true)
         printf("Using special chars\n");
 
+    printf("\n");
+
     if (customPwd == true)
         cout << "The custom " << passLen << " character password you entered is: " << correctPassword << endl;
 
@@ -85,26 +87,11 @@ int main(int argc, char *argv[])
     }
 
     char input; //Used for the "press ENTER" thing later on
-
-    //GOOD WORKING STUFF ↓
-    srand(time(0));
-
-    // for (int i = 0; i < usableChars.size(); i++)
-    //     cout << usableChars[i];
-
-    // string pass = "14";
-
-    // thread test1(guessPwd, 1, true, pass);
-    // thread test2(guessPwd, 2, true, pass);
-    // thread test3(guessPwd, 3, true, pass);
-    // thread test4(guessPwd, 4, true, pass);
-    // test1.join();
-    // test2.join();
-    // test3.join();
-    // test4.join();
+    int numThreads;
 
     for (int i = 0; i < argc; i++) //Add args to vector
         args.push_back(argv[i]);
+    args.erase(args.begin()); //Remove the useless first arg (name of the executable)
 
     for (int i = 0; i < argc; i++) //First determine if verbose or if --help was specified
     {
@@ -187,14 +174,14 @@ int main(int argc, char *argv[])
         else if (args[i] == "--showchars")
             showChars = true;
 
-        else if (args[i] == "--noseed")
+        else if (noSeed == false && args[i] == "--noseed")
         {
             noSeed = true;
             timeSeed = false;
             usingCustomSeed = false;
         }
 
-        else if (args[i] == "--time")
+        else if (timeSeed == false && args[i] == "--time")
         {
             srand(time(0));
             timeSeed = true;
@@ -202,7 +189,7 @@ int main(int argc, char *argv[])
             usingCustomSeed = false;
         }
 
-        else if ((args[i][0] == '-') && (args[i][1] == 'S') && (args[i][2] != '\0')) //Custom seed (-S)
+        else if ((usingCustomSeed == false) && ((args[i][0] == '-') && (args[i][1] == 'S') && (args[i][2] != '\0'))) //Custom seed (-S)
         {
             usingCustomSeed = true;
             noSeed = false;
@@ -223,6 +210,9 @@ int main(int argc, char *argv[])
         }
     }
 
+    if (timeSeed == true)
+        std::srand(time(0));
+
     usableChars = usableCharsInit(usingDigits, usingLower, usingUpper, usingSpecialChars);
 
     if (passLen <= 0)
@@ -231,7 +221,7 @@ int main(int argc, char *argv[])
         cout << "No user-specified password length. Generating rand length of: " << passLen << endl;
     }
 
-    if (customPwd == false)
+    if (customPwd == false && justGenerating == false)
     {
         correctPassword = genPwd(passLen, usableChars);
         cout << "No user-specified password. Generating random one: " << correctPassword << endl;
@@ -240,6 +230,7 @@ int main(int argc, char *argv[])
     if (justGenerating == true && customPwd == false)
     {
         printf("Here is your newly generated password:\n");
+        correctPassword = genPwd(passLen, usableChars);
         cout << correctPassword << endl;
         exit(EXIT_SUCCESS);
     }
