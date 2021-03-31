@@ -253,9 +253,9 @@ int main(int argc, char *argv[])
     scanf("%c", &input);
 
     thread test1(guessPwd, 1, nostore, correctPassword);
-    // thread test2(guessPwd, 2, true, pass);
-    // thread test3(guessPwd, 3, true, pass);
-    // thread test4(guessPwd, 4, true, pass);
+    // thread test2(guessPwd, 2, nostore, correctPassword);
+    // thread test3(guessPwd, 3, nostore, correctPassword);
+    // thread test4(guessPwd, 4, nostore, correctPassword);
     test1.join();
     // test2.join();
     // test3.join();
