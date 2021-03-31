@@ -20,7 +20,7 @@ string guess;
 string correctPassword;
 bool storeGuesses;
 bool notGuessed = true;
-bool printOnce = true; //Used for printing duration
+// bool printOnce = true; //Used for printing duration
 vector<string> guesses;
 vector<char> usableChars; //The chars that could be in the password
 
@@ -98,6 +98,7 @@ vector<char> usableCharsInit(bool usingDigits, bool usingLower, bool usingUpper,
 void guessPwdWStore(int threadID, int len, string correctPassword, vector<char> usableChars)
 {
     using namespace chrono;
+    static bool printOnce = true; //Used for printing duration
     guess = genPwd(len, usableChars);
     correctPassword.resize(len);
 
@@ -106,7 +107,7 @@ void guessPwdWStore(int threadID, int len, string correctPassword, vector<char> 
     while (notGuessed == true)
     {
         guess = genPwd(len, usableChars);
-        cout << "Thread #" << threadID << "\tGuess: " << guess << '\t' << "Total Attempts: " << totalAttempts << '\t' << "Without Dupes: " << actualAttempts << '\t';
+        cout << "Thread #" << threadID << "\tGuess: " << guess << '\t' << "Total Attempts: " << totalAttempts << '\t' << "Without Dupes: " << actualAttempts << "\tthreadWinner: #" << threadWinner << " ";
 
         if (find(guesses.begin(), guesses.end(), guess) != guesses.end()) //Check for duplicates
         {
@@ -135,7 +136,7 @@ void guessPwdWStore(int threadID, int len, string correctPassword, vector<char> 
 
     printf("\n");
     printline(120);
-    cout << "The password " << guess << " was guessed after " << --totalAttempts << " attempts with duplicates and " << --actualAttempts << " attempts without duplicates.\nThere were " << totalAttempts - actualAttempts << " duplicate guesses.\n";
+    cout << "The password " << guess << " was guessed by thread #" << threadWinner << " after " << --totalAttempts << " attempts with duplicates and " << --actualAttempts << " attempts without duplicates.\nThere were " << totalAttempts - actualAttempts << " duplicate guesses.\n";
     printline(120);
 
     if (printOnce == true)
@@ -169,6 +170,7 @@ void guessPwdWStore(int threadID, int len, string correctPassword, vector<char> 
 void guessPwdWoutStore(int threadID, int len, string correctPassword, vector<char> usableChars)
 {
     using namespace chrono;
+    static bool printOnce = true; //Used for printing duration
     guess = genPwd(len, usableChars);
     correctPassword.resize(len);
 

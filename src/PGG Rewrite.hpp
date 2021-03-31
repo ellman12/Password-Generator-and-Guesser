@@ -18,6 +18,7 @@ void printline(const int LENGTH)
     printf("\n");
 }
 
+//TODO: -T flag
 void help() //Shows the different flags, what they do, and how to use them
 {
     const int LENGTH = 111;
