@@ -28,6 +28,10 @@ vector<string> args; //Store the cmd line args in a vector for ease of use
 //If user specifies -v, print out stuff so they know what's happening under the hood
 void verbosePrint()
 {
+    printf("\n");
+    int lineLength = 49 + correctPassword.length() + 2; //Guarantee some nice line formatting :)
+    printline(lineLength);
+    printf("-v (verbose) print\n");
     printf("\nPassword generation:\n");
     if (usingDigits == true)
         printf("Using digits\n");
@@ -65,7 +69,7 @@ void verbosePrint()
         for (int i = 0; i < usableChars.size(); i++)
             cout << usableChars.at(i) << ' ';
     }
-
+    printline(lineLength);
     printf("\n");
 }
 
