@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
     char input; //Used for the "press ENTER" thing later on
 
     //GOOD WORKING STUFF ↓
-    // srand(time(0));
+    srand(time(0));
 
     // for (int i = 0; i < usableChars.size(); i++)
     //     cout << usableChars[i];
@@ -218,22 +218,21 @@ int main(int argc, char *argv[])
 
     usableChars = usableCharsInit(usingDigits, usingLower, usingUpper, usingSpecialChars);
 
-    if ((passLen <= 0) && (customPwd == false)) //If user doesn't specify length or password)
+    if (passLen <= 0)
     {
         passLen = genRandNum(1, maxLength);
-        cout << "No length specified as arg. Generating rand length of: " << passLen << endl;
-        cout << "Generating custom password" << endl;
-        correctPassword = genPwd(passLen, usableChars); //Computer will try and guess this
+        cout << "No user-specified password length. Generating rand length of: " << passLen << endl;
     }
 
-    //If user doesn't enter their own
-    // if (customPwd == false)
-    // {
+    if (customPwd == false)
+    {
+        correctPassword = genPwd(passLen, usableChars);
+        cout << "No user-specified password. Generating random one: " << correctPassword << endl;
+    }
 
-    // }
-
+    //Just to verify we have the correct length
+    //Mostly for helping to idiot-proof it in case the user uses both -L and -p
     passLen = correctPassword.length();
-
     correctPassword.resize(passLen); //Resize to store how many chars we want
 
     if (verbose)
