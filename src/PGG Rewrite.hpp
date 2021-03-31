@@ -3,28 +3,7 @@
 
 //Misc funcs for main file
 #include <iostream>
-// #include "Threads.hpp"
 using namespace std;
-
-// std::string generatePassword(int len, std::vector<char> usableChars)
-// {
-//     std::string newPassword = "";
-//     newPassword.resize(len);
-
-//     for (int i = 0; i < len; i++) //Fill the new password string with random chars
-//     {
-//         newPassword[i] = usableChars[rand() % usableChars.size()];
-//     }
-//     return newPassword;
-// }
-
-//Used in the guess functions to display how long it took the PC to figure out the password
-//start and stop start in nanoseconds
-// void convertAndPrintTimes(int start, int stop)
-// {
-// using namespace chrono;
-//
-// }
 
 int genRandNum(int min, int max)
 {
