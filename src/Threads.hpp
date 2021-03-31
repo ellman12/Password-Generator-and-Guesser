@@ -130,31 +130,29 @@ void guessPwdWStore(int threadID, int len, string correctPassword, vector<char> 
     }
 
     auto stop = high_resolution_clock::now(); //Stop the timer
-
-    // printf("\n");
-    // printline(97);
-    // cout << guess << " was guessed after " << --totalAttempts << " attempts with duplicates and " << --actualAttempts << " attempts without duplicates.\nThere were " << totalAttempts - actualAttempts << " duplicate guesses.\n";
-    // printline(97);
-
-    // printline(9);
-    // cout << "Duration:" << endl;
-    // printline(9);
-
     threadWinner = threadID;
-
     ::correctPassword = correctPassword;
+
+    printf("\n");
+    printline(120);
+    cout << "The password " << guess << " was guessed after " << --totalAttempts << " attempts with duplicates and " << --actualAttempts << " attempts without duplicates.\nThere were " << totalAttempts - actualAttempts << " duplicate guesses.\n";
+    printline(120);
 
     if (printOnce == true)
     {
         printOnce = false;
+        printline(27);
+        cout << "\t Duration" << endl;
+        printline(27);
+
         auto durationNano = duration_cast<nanoseconds>(stop - start);
         cout << (double)durationNano.count() << "\tNanoseconds" << endl;
 
         double durationMicro = durationNano.count() / 1000;
-        cout << durationMicro << "\tMicroseconds" << endl;
+        cout << durationMicro << "\t\tMicroseconds" << endl;
 
         double durationMilli = durationMicro / 1000;
-        cout << durationMilli << "\tMilliseconds" << endl;
+        cout << durationMilli << "\t\tMilliseconds" << endl;
 
         double durationSec = durationMilli / 1000;
         cout << durationSec << "\tSeconds" << endl;
@@ -164,6 +162,7 @@ void guessPwdWStore(int threadID, int len, string correctPassword, vector<char> 
 
         double durationHour = durationSec / 60;
         cout << durationHour << "\tHours" << endl;
+        printf("\n");
     }
 }
 
@@ -194,17 +193,26 @@ void guessPwdWoutStore(int threadID, int len, string correctPassword, vector<cha
 
     ::correctPassword = correctPassword;
 
+    printf("\n");
+    printline(120);
+    cout << "The password " << guess << " was guessed by Thread #" << threadWinner << " after " << --totalAttempts << " attempts" << endl;
+    printline(120);
+
     if (printOnce == true)
     {
         printOnce = false;
+        printline(27);
+        cout << "\t Duration" << endl;
+        printline(27);
+
         auto durationNano = duration_cast<nanoseconds>(stop - start);
         cout << (double)durationNano.count() << "\tNanoseconds" << endl;
 
         double durationMicro = durationNano.count() / 1000;
-        cout << durationMicro << "\tMicroseconds" << endl;
+        cout << durationMicro << "\t\tMicroseconds" << endl;
 
         double durationMilli = durationMicro / 1000;
-        cout << durationMilli << "\tMilliseconds" << endl;
+        cout << durationMilli << "\t\tMilliseconds" << endl;
 
         double durationSec = durationMilli / 1000;
         cout << durationSec << "\tSeconds" << endl;
@@ -214,45 +222,46 @@ void guessPwdWoutStore(int threadID, int len, string correctPassword, vector<cha
 
         double durationHour = durationSec / 60;
         cout << durationHour << "\tHours" << endl;
+        printf("\n");
     }
 }
 
-void guessPwd(int threadID, bool storePasswords, string correctPassword)
+void guessPwd(int threadID, bool nostore, string correctPassword)
 {
     int passLen = correctPassword.size();
-    static bool printOnce = true;
+    // static bool printOnce = true;
 
-    if (storePasswords)
-        guessPwdWStore(threadID, passLen, correctPassword, usableChars);
-    else
+    if (nostore)
         guessPwdWoutStore(threadID, passLen, correctPassword, usableChars);
+    else
+        guessPwdWStore(threadID, passLen, correctPassword, usableChars);
 
-    if (printOnce == true)
-    {
-        printOnce = false;
-        if (storePasswords)
-        {
-            printf("\n");
-            printline(120);
-            cout << "Password " << guess << " was guessed by Thread #" << threadWinner << " after " << --totalAttempts << " attempts with duplicates and " << --actualAttempts << " attempts without duplicates.\nThere were " << totalAttempts - actualAttempts << " duplicate guesses.\n";
-            printline(120);
+    // if (printOnce == true)
+    // {
+    // printOnce = false;
+    // if (nostore)
+    // {
+    // printf("\n");
+    // printline(120);
+    // cout << "Password " << guess << " was guessed by Thread #" << threadWinner << " after " << --totalAttempts << " attempts with duplicates and " << --actualAttempts << " attempts without duplicates.\nThere were " << totalAttempts - actualAttempts << " duplicate guesses.\n";
+    // printline(120);
 
-            printline(9);
-            cout << "Duration:" << endl;
-            printline(9);
-        }
-        else
-        {
-            printf("\n");
-            printline(120);
-            cout << "Password " << guess << " was guessed by Thread #" << threadWinner << " after " << --totalAttempts << endl;
-            printline(120);
+    // printline(9);
+    // cout << "Duration:" << endl;
+    // printline(9);
+    // }
+    // else
+    // {
+    // printf("\n");
+    // printline(120);
+    // cout << "Password " << guess << " was guessed by Thread #" << threadWinner << " after " << --totalAttempts << " attempts" << endl;
+    // printline(120);
 
-            printline(9);
-            cout << "Duration:" << endl;
-            printline(9);
-        }
-    }
+    // printline(9);
+    // cout << "Duration:" << endl;
+    // printline(9);
+    // }
+    // }
 }
 
 #endif

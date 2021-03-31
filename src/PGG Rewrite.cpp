@@ -209,7 +209,7 @@ int main(int argc, char *argv[])
             justGenerating = true;
         }
 
-        else if (!args[i].empty()) //This somehow works
+        else if ((!args[i].empty()) && !verbose) //This somehow works
         {
             help();
             cout << "Unknown flag \"" << args[i] << "\" at index " << i << endl;
@@ -217,7 +217,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (timeSeed == true)
+    if (timeSeed == true) //TODO: is this needed?
         std::srand(time(0));
 
     usableChars = usableCharsInit(usingDigits, usingLower, usingUpper, usingSpecialChars);
@@ -252,5 +252,12 @@ int main(int argc, char *argv[])
     cout << "Hit ENTER and the computer will attempt to guess the " << passLen << " character password " << correctPassword << endl;
     scanf("%c", &input);
 
-    //TODO: begin guessing
+    thread test1(guessPwd, 1, nostore, correctPassword);
+    // thread test2(guessPwd, 2, true, pass);
+    // thread test3(guessPwd, 3, true, pass);
+    // thread test4(guessPwd, 4, true, pass);
+    test1.join();
+    // test2.join();
+    // test3.join();
+    // test4.join();
 }
