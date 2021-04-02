@@ -22,8 +22,6 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    char input; //Used for the "press ENTER" thing later on
-
     for (int i = 0; i < argc; i++) //Add args to vector
         args.push_back(argv[i]);
     args.erase(args.begin()); //Remove the useless first arg (name of the executable)
@@ -144,6 +142,11 @@ int main(int argc, char *argv[])
             justGenerating = true;
         }
 
+        else if (args[i] == "--noenter")
+        {
+            noEnter = true;
+        }
+
         else if ((!args[i].empty()) && !verbose) //This somehow works
         {
             help();
@@ -184,8 +187,12 @@ int main(int argc, char *argv[])
     if (verbose)
         verbosePrint();
 
-    cout << "Hit ENTER and the computer will attempt to guess the " << passLen << " character password " << correctPassword << endl;
-    scanf("%c", &input);
+    if (noEnter == false)
+    {
+        char input;
+        cout << "Hit ENTER and the computer will attempt to guess the " << passLen << " character password " << correctPassword << endl;
+        scanf("%c", &input);
+    }
 
     guessPwd();
 }

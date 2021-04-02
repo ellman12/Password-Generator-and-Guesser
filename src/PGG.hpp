@@ -26,6 +26,7 @@ bool storeGuesses;
 bool customPwd = false;
 bool showChars = false;
 bool justGenerating = false; //If the user just wants to generate a password
+bool noEnter = false; //If the user doesn't want to do the "Hit ENTER" thing, specify the --noenter flag
 
 string seedString;
 unsigned long long customSeed = 0;
@@ -84,6 +85,7 @@ void help() //Shows the different flags, what they do, and how to use them
     printf("--genpwd\tJust generates a password; no guessing, etc. Use normal flags like -d, -L, etc. for generation\n");
     printf("-v\t\t(Verbose) Tells you what things happen under the hood and when\n");
     printf("--showchars\tPrint out what chars a generated password could contain\n");
+    printf("--noenter\tSkip the 'Hit ENTER' thing that happens before guessing begins\n");
     printline(LENGTH);
     printf("\n");
 }
@@ -135,6 +137,10 @@ void verbosePrint()
         for (int i = 0; i < usableChars.size(); i++)
             cout << usableChars.at(i) << ' ';
     }
+
+    if (noEnter == true)
+        printf("User does not need to hit ENTER\n");
+
     printline(lineLength);
     printf("\n");
 }
