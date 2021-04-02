@@ -145,6 +145,9 @@ int main(int argc, char *argv[])
 
     usableChars = usableCharsInit();
 
+    if (timeSeed == true)
+        std::srand(time(0));
+
     if (passLen <= 0 && customPwd == false)
     {
         passLen = genRandNum(1, maxLength);
