@@ -1,5 +1,5 @@
-#ifndef PGG_REWRITE_HPP_
-#define PGG_REWRITE_HPP_
+#ifndef PGG_HPP_
+#define PGG_HPP_
 
 #include <iostream>
 #include <algorithm>
