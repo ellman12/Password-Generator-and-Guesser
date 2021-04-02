@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <chrono>
-#include "PGG Rewrite.hpp"
+#include "Gen&Guess.hpp"
 
 int main(int argc, char *argv[])
 {

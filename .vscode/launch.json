@@ -8,7 +8,7 @@
             "name": "PGG Build",
             "type": "cppdbg",
             "request": "launch",
-            "program": "C:/Users/Elliott/Documents/GitHub/Password-Generator-and-Guesser/src/PGG Rewrite.exe",
+            "program": "C:/Users/Elliott/Documents/GitHub/Password-Generator-and-Guesser/src/PGGR.exe",
             "args": ["-d -l -u -s --time -L10"],
             "stopAtEntry": true,
             "cwd": "C:/Users/Elliott/Documents/GitHub/Password-Generator-and-Guesser/",
