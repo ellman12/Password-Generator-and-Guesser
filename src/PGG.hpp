@@ -58,7 +58,7 @@ void help() //Shows the different flags, what they do, and how to use them
 {
     const int LENGTH = 111;
     printline(LENGTH);
-    printf("Password Generator and Guesser (PGG) Flags\n");
+    printf("Password Generator and Guesser (PGG) V. 1.1\n");
     printf("The order of these should not affect anything\n\n");
 
     printf("Control Password Generation\n");
