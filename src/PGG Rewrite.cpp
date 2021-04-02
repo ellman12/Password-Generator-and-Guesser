@@ -3,58 +3,6 @@
 #include <vector>
 #include <chrono>
 #include "PGG Rewrite.hpp"
-using namespace std;
-
-//If user specifies -v, print out stuff so they know what's happening under the hood
-void verbosePrint()
-{
-    printf("\n");
-    int lineLength = 49 + correctPassword.length() + 2; //Guarantee some nice line formatting :)
-    printline(lineLength);
-    printf("-v (verbose) print\n");
-    printf("\nPassword generation:\n");
-    if (usingDigits == true)
-        printf("Using digits\n");
-
-    if (usingLower == true)
-        printf("Using lowercase\n");
-
-    if (usingUpper == true)
-        printf("Using uppercase\n");
-
-    if (usingSpecialChars == true)
-        printf("Using special chars\n");
-
-    printf("\n");
-
-    if (customPwd == true)
-        cout << "The custom " << passLen << " character password you entered is: " << correctPassword << endl;
-
-    printf("\nSeed info:\n");
-    if (noSeed == true)
-        cout << "The default srand() seed will be used" << endl;
-
-    if (timeSeed == true)
-        cout << "time(0) [" << time(0) << "] is the seed (default)" << endl;
-
-    if (usingCustomSeed == true)
-        cout << "The custom seed you entered is: " << seedString << endl;
-
-    printf("\nOther:\n");
-    if (storePwds == true)
-        printf("Guesses will not be stored\n");
-    else
-        printf("Guesses will be stored (default)\n");
-
-    if (showChars == true)
-    {
-        printf("Chars a password could contain:\n");
-        for (int i = 0; i < usableChars.size(); i++)
-            cout << usableChars.at(i) << ' ';
-    }
-    printline(lineLength);
-    printf("\n");
-}
 
 int main(int argc, char *argv[])
 {
