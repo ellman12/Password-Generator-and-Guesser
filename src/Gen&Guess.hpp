@@ -57,7 +57,7 @@ void guessPwdWStore(vector<char> usableChars) //Can specify either the global ve
     double durationMin = durationSec / 60;
     cout << durationMin << "\tMinutes" << endl;
 
-    double durationHour = durationSec / 60;
+    double durationHour = durationMin / 60;
     cout << durationHour << "\tHours" << endl;
     printf("\n");
 }
@@ -102,7 +102,7 @@ void guessPwdWoutStore(vector<char> usableChars)
     double durationMin = durationSec / 60;
     cout << durationMin << "\tMinutes" << endl;
 
-    double durationHour = durationSec / 60;
+    double durationHour = durationMin / 60;
     cout << durationHour << "\tHours" << endl;
     printf("\n");
 }
