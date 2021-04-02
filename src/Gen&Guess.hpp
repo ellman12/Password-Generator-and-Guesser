@@ -35,7 +35,7 @@ void guessPwdWStore(vector<char> usableChars) //Can specify either the global ve
 
     printf("\n");
     printline(120);
-    cout << "The password " << guess << " was guessed after " << --totalAttempts << " attempts with duplicates and " << --actualAttempts << " attempts without duplicates.\nThere were " << totalAttempts - actualAttempts << " duplicate guesses.\n";
+    cout << guess << " was guessed after " << --totalAttempts << " attempts with duplicates and " << --actualAttempts << " attempts without duplicates.\nThere were " << totalAttempts - actualAttempts << " duplicate guesses.\n";
     printline(120);
 
     printline(27);
@@ -80,7 +80,7 @@ void guessPwdWoutStore(vector<char> usableChars)
 
     printf("\n");
     printline(120);
-    cout << "The password " << guess << " was guessed after " << --totalAttempts << " attempts" << endl;
+    cout << guess << " was guessed after " << --totalAttempts << " attempts" << endl;
     printline(120);
 
     printline(27);

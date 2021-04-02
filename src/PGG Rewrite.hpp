@@ -35,6 +35,7 @@ int maxLength = 50;     //User can change this. It's how long an auto-generated 
 int totalAttempts = 1;  //Total guess attempts without counting duplicates (i.e., guessing a password more than once)
 int actualAttempts = 1; //Total with duplicates counted
 string guess;
+string correctUsername;
 string correctPassword;
 vector<string> guesses;
 vector<char> usableChars; //The chars that could be in the password
