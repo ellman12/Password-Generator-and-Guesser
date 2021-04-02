@@ -26,7 +26,9 @@ bool storeGuesses;
 bool customPwd = false;
 bool showChars = false;
 bool justGenerating = false; //If the user just wants to generate a password
-bool noEnter = false; //If the user doesn't want to do the "Hit ENTER" thing, specify the --noenter flag
+bool noEnter = false;        //If the user doesn't want to do the "Hit ENTER" thing, specify the --noenter flag
+bool sendToFile = false;     //Output guessing function result to a file
+string fileName;
 
 string seedString;
 unsigned long long customSeed = 0;
@@ -55,6 +57,15 @@ void printline(const int LENGTH)
     printf("\n");
 }
 
+//Same as above but returns a string of the line
+string createLine(const int LENGTH)
+{
+    string result;
+    for (int i = 0; i < LENGTH; i++)
+        result += '-';
+    return result;
+}
+
 void help() //Shows the different flags, what they do, and how to use them
 {
     const int LENGTH = 111;
@@ -79,6 +90,7 @@ void help() //Shows the different flags, what they do, and how to use them
     printf("Control Password Guessing\n");
     printf("--store    Store guesses to avoid duplicating. This can also help make guessing faster (Default)\n");
     printf("--nostore  Don't store them. Can help avoid running out of memory if the password is long\n");
+    printf("-O\"filename\"  Output guessing function result to a file\n");
 
     printf("\nMisc\n");
     printf("--help\t\tShows this\n");
@@ -94,7 +106,7 @@ void help() //Shows the different flags, what they do, and how to use them
 void verbosePrint()
 {
     printf("\n");
-    int lineLength = 49 + correctPassword.length() + 2; //Guarantee some nice line formatting :)
+    int lineLength = 52 + correctPassword.length() + 2; //Guarantee some nice line formatting :)
     printline(lineLength);
     printf("-v (verbose) print\n");
     printf("\nPassword generation:\n");
@@ -130,6 +142,11 @@ void verbosePrint()
         printf("Guesses will not be stored\n");
     else
         printf("Guesses will be stored (default)\n");
+
+    if (sendToFile)
+        cout << "Output of guessing functions will be sent to a file called: " << fileName << endl;
+    else
+        printf("Output of guessing functions will NOT be sent to a file\n");
 
     if (showChars == true)
     {

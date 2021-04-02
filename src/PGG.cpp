@@ -11,6 +11,7 @@
 * When there are more possible characters and a longer string, there is more variety and thus less repetition.
 * Lastly, I recommend using the -v (verbose) flag every time you run this thing. Nice to be able to double check to see what the program is about to do.
 * Known issue: the Duration section's printing/formatting (specifically with the tabs) can be quite funky. Not sure why ¯\_(ツ)_/¯ */
+#include <fstream>
 #include "Gen&Guess.hpp"
 
 int main(int argc, char *argv[])
@@ -135,6 +136,17 @@ int main(int argc, char *argv[])
 
             customSeed = stoull(seedString); //Make number and apply the custom seed
             std::srand(customSeed);
+        }
+
+        else if (((args[i][0] == '-') && (args[i][1] == 'O') && (args[i][2] != '\0')))
+        {
+            sendToFile = true;
+
+            fileName.resize(args[i].length() - 2); //Use this later
+
+            for (int j = 2; j < args[i].length(); j++)
+                fileName[j - 2] = args[i][j];
+            fileName += ".txt";
         }
 
         else if (args[i] == "--genpwd")

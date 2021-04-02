@@ -34,32 +34,43 @@ void guessPwdWStore(vector<char> usableChars) //Can specify either the global ve
     auto stop = high_resolution_clock::now(); //Stop the timer
 
     printf("\n");
-    printline(120);
-    cout << guess << " was guessed after " << --totalAttempts << " attempts with duplicates and " << --actualAttempts << " attempts without duplicates.\nThere were " << totalAttempts - actualAttempts << " duplicate guesses.\n";
-    printline(120);
 
-    printline(27);
-    cout << "\t Duration" << endl;
-    printline(27);
+    string result;
+    result = createLine(120);
+    result += ('\n' + guess + " was guessed after " + to_string(--totalAttempts) + " attempts with duplicates and " + to_string(--actualAttempts) + " attempts without duplicates.\nThere were " + to_string(totalAttempts - actualAttempts) + " duplicate guesses.\n");
+    result += createLine(120) + '\n';
+
+    result += createLine(27);
+    result += "\n\t Duration\n";
+    result += createLine(27) + '\n';
 
     auto durationNano = duration_cast<nanoseconds>(stop - start);
-    cout << (double)durationNano.count() << "\tNanoseconds" << endl;
+    result += to_string((double)durationNano.count()) + "\tNanoseconds\n";
 
     double durationMicro = durationNano.count() / 1000;
-    cout << durationMicro << "\t\tMicroseconds" << endl;
+    result += (to_string(durationMicro) + "\tMicroseconds\n");
 
     double durationMilli = durationMicro / 1000;
-    cout << durationMilli << "\t\tMilliseconds" << endl;
+    result += (to_string(durationMilli) + "\tMilliseconds\n");
 
     double durationSec = durationMilli / 1000;
-    cout << durationSec << "\tSeconds" << endl;
+    result += (to_string(durationSec) + "\tSeconds\n");
 
     double durationMin = durationSec / 60;
-    cout << durationMin << "\tMinutes" << endl;
+    result += (to_string(durationMin) + "\tMinutes\n");
 
     double durationHour = durationMin / 60;
-    cout << durationHour << "\tHours" << endl;
-    printf("\n");
+    result += (to_string(durationHour) + "\tHours\n\n");
+
+    if (sendToFile == true)
+    {
+        fstream resultFile;
+        resultFile.open(fileName, ios::out);
+        resultFile << result;
+        resultFile.close();
+    }
+
+    cout << result << endl;
 }
 
 void guessPwdWoutStore(vector<char> usableChars)
@@ -79,32 +90,43 @@ void guessPwdWoutStore(vector<char> usableChars)
     auto stop = high_resolution_clock::now();
 
     printf("\n");
-    printline(120);
-    cout << guess << " was guessed after " << --totalAttempts << " attempts" << endl;
-    printline(120);
+    string result;
+    result = createLine(120);
+    result += ('\n' + guess + " was guessed after " + to_string(--totalAttempts) + " attempts.\n");
 
-    printline(27);
-    cout << "\t Duration" << endl;
-    printline(27);
+    result += createLine(120) + '\n';
+
+    result += createLine(27);
+    result += "\n\t Duration\n";
+    result += createLine(27) + '\n';
 
     auto durationNano = duration_cast<nanoseconds>(stop - start);
-    cout << (double)durationNano.count() << "\tNanoseconds" << endl;
+    result += to_string((double)durationNano.count()) + "\tNanoseconds\n";
 
     double durationMicro = durationNano.count() / 1000;
-    cout << durationMicro << "\t\tMicroseconds" << endl;
+    result += (to_string(durationMicro) + "\tMicroseconds\n");
 
     double durationMilli = durationMicro / 1000;
-    cout << durationMilli << "\t\tMilliseconds" << endl;
+    result += (to_string(durationMilli) + "\tMilliseconds\n");
 
     double durationSec = durationMilli / 1000;
-    cout << durationSec << "\tSeconds" << endl;
+    result += (to_string(durationSec) + "\tSeconds\n");
 
     double durationMin = durationSec / 60;
-    cout << durationMin << "\tMinutes" << endl;
+    result += (to_string(durationMin) + "\tMinutes\n");
 
     double durationHour = durationMin / 60;
-    cout << durationHour << "\tHours" << endl;
-    printf("\n");
+    result += (to_string(durationHour) + "\tHours\n\n");
+
+    if (sendToFile == true)
+    {
+        fstream resultFile;
+        resultFile.open(fileName, ios::out);
+        resultFile << result;
+        resultFile.close();
+    }
+
+    cout << result << endl;
 }
 
 //Default to using the global usableChars
