@@ -2,7 +2,8 @@
 * Purpose: None really. Made for gaining C++ experience and command line argument (flag) experience.
 * Function: Computer tries to guess a "password" (just random/user-specified characters).
 * Required extra files: PGG.hpp & Gen&Guess.hpp
-* Compile: g++ PGG.cpp
+* Compile: g++ -o "PGG" PGG.cpp
+* Run: PGG <flags>
 * Comments: It's quite satisfying watching the output.
 * Obviously, this will probably strain your CPU. Please keep this in mind.
 * Also, if you allow it to store guesses and the length is over like 7 characters, it will eat up memory, and possibly crash. It can easily reach hundreds of thousands of guesses.
