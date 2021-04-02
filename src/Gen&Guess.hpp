@@ -19,7 +19,7 @@ void guessPwdWStore(vector<char> usableChars) //Can specify either the global ve
 
         if (find(guesses.begin(), guesses.end(), guess) != guesses.end()) //Check for duplicates
         {
-            printf("Already in the vector");
+            printf("\tAlready in the vector");
             totalAttempts++;
         }
         else
