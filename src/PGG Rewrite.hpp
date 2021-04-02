@@ -87,7 +87,70 @@ void help() //Shows the different flags, what they do, and how to use them
     printf("\n");
 }
 
+//If user specifies -v, print out stuff so they know what's happening under the hood
+void verbosePrint()
+{
+    printf("\n");
+    int lineLength = 49 + correctPassword.length() + 2; //Guarantee some nice line formatting :)
+    printline(lineLength);
+    printf("-v (verbose) print\n");
+    printf("\nPassword generation:\n");
+    if (usingDigits == true)
+        printf("Using digits\n");
+
+    if (usingLower == true)
+        printf("Using lowercase\n");
+
+    if (usingUpper == true)
+        printf("Using uppercase\n");
+
+    if (usingSpecialChars == true)
+        printf("Using special chars\n");
+
+    printf("\n");
+
+    if (customPwd == true)
+        cout << "The custom " << passLen << " character password you entered is: " << correctPassword << endl;
+
+    printf("\nSeed info:\n");
+    if (noSeed == true)
+        cout << "The default srand() seed will be used" << endl;
+
+    if (timeSeed == true)
+        cout << "time(0) [" << time(0) << "] is the seed (default)" << endl;
+
+    if (usingCustomSeed == true)
+        cout << "The custom seed you entered is: " << seedString << endl;
+
+    printf("\nOther:\n");
+    if (storePwds == true)
+        printf("Guesses will not be stored\n");
+    else
+        printf("Guesses will be stored (default)\n");
+
+    if (showChars == true)
+    {
+        printf("Chars a password could contain:\n");
+        for (int i = 0; i < usableChars.size(); i++)
+            cout << usableChars.at(i) << ' ';
+    }
+    printline(lineLength);
+    printf("\n");
+}
+
 string genPwd(int len)
+{
+    string newPassword = "";
+    newPassword.resize(len);
+
+    for (int i = 0; i < len; i++) //Fill the new password string with random chars
+    {
+        newPassword[i] = usableChars[rand() % usableChars.size()];
+    }
+    return newPassword;
+}
+
+string genPwd(int len, vector<char> usableChars)
 {
     string newPassword = "";
     newPassword.resize(len);
@@ -216,7 +279,110 @@ void guessPwdWStore()
     printf("\n");
 }
 
+void guessPwdWStore(vector<char> usableChars)
+{
+    using namespace chrono;
+    guess = genPwd(passLen);
+    correctPassword.resize(passLen);
+
+    auto start = high_resolution_clock::now(); //Start the timer
+
+    while (guess != correctPassword)
+    {
+        guess = genPwd(passLen);
+        cout << "Guess: " << guess << '\t' << "Total Attempts: " << totalAttempts << '\t' << "Without Dupes: " << actualAttempts << " ";
+
+        if (find(guesses.begin(), guesses.end(), guess) != guesses.end()) //Check for duplicates
+        {
+            printf("Already in the vector");
+            totalAttempts++;
+        }
+        else
+        {
+            guesses.push_back(guess);
+            totalAttempts++;
+            actualAttempts++;
+        }
+        printf("\n");
+    }
+
+    auto stop = high_resolution_clock::now(); //Stop the timer
+
+    printf("\n");
+    printline(120);
+    cout << "The password " << guess << " was guessed after " << --totalAttempts << " attempts with duplicates and " << --actualAttempts << " attempts without duplicates.\nThere were " << totalAttempts - actualAttempts << " duplicate guesses.\n";
+    printline(120);
+
+    printline(27);
+    cout << "\t Duration" << endl;
+    printline(27);
+
+    auto durationNano = duration_cast<nanoseconds>(stop - start);
+    cout << (double)durationNano.count() << "\tNanoseconds" << endl;
+
+    double durationMicro = durationNano.count() / 1000;
+    cout << durationMicro << "\t\tMicroseconds" << endl;
+
+    double durationMilli = durationMicro / 1000;
+    cout << durationMilli << "\t\tMilliseconds" << endl;
+
+    double durationSec = durationMilli / 1000;
+    cout << durationSec << "\tSeconds" << endl;
+
+    double durationMin = durationSec / 60;
+    cout << durationMin << "\tMinutes" << endl;
+
+    double durationHour = durationSec / 60;
+    cout << durationHour << "\tHours" << endl;
+    printf("\n");
+}
+
 void guessPwdWoutStore()
+{
+    using namespace chrono;
+    guess = genPwd(passLen);
+    correctPassword.resize(passLen);
+
+    auto start = high_resolution_clock::now();
+
+    while (guess != correctPassword)
+    {
+        guess = genPwd(passLen);
+        cout << "Guess: " << guess << '\t' << "Total Attempts: " << totalAttempts++ << '\n';
+    }
+
+    auto stop = high_resolution_clock::now();
+
+    printf("\n");
+    printline(120);
+    cout << "The password " << guess << " was guessed after " << --totalAttempts << " attempts" << endl;
+    printline(120);
+
+    printline(27);
+    cout << "\t Duration" << endl;
+    printline(27);
+
+    auto durationNano = duration_cast<nanoseconds>(stop - start);
+    cout << (double)durationNano.count() << "\tNanoseconds" << endl;
+
+    double durationMicro = durationNano.count() / 1000;
+    cout << durationMicro << "\t\tMicroseconds" << endl;
+
+    double durationMilli = durationMicro / 1000;
+    cout << durationMilli << "\t\tMilliseconds" << endl;
+
+    double durationSec = durationMilli / 1000;
+    cout << durationSec << "\tSeconds" << endl;
+
+    double durationMin = durationSec / 60;
+    cout << durationMin << "\tMinutes" << endl;
+
+    double durationHour = durationSec / 60;
+    cout << durationHour << "\tHours" << endl;
+    printf("\n");
+}
+
+void guessPwdWoutStore(vector<char> usableChars)
 {
     using namespace chrono;
     guess = genPwd(passLen);
