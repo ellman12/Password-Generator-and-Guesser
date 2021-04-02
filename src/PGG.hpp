@@ -1,3 +1,4 @@
+//Bunch of stuff for the main file (help declutter main file)
 #ifndef PGG_HPP_
 #define PGG_HPP_
 

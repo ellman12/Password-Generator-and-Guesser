@@ -1,7 +1,7 @@
+//Generation and guessing functions
 #ifndef GEN_GUESS_HPP_
 #define GEN_GUESS_HPP_
 
-//Generation and guessing functions
 #include "PGG.hpp"
 
 void guessPwdWStore(vector<char> usableChars) //Can specify either the global vector or another vector of usableChars.

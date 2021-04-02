@@ -1,7 +1,15 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <chrono>
+/*Programmer: Elliott DuCharme
+* Purpose: None really. Made for gaining C++ experience and command line argument (flag) experience.
+* Function: Computer tries to guess a "password" (just random/user-specified characters).
+* Required extra files: PGG.hpp & Gen&Guess.hpp
+* Compile: g++ PGG.cpp
+* Comments: It's quite satisfying watching the output.
+* Obviously, this will probably strain your CPU. Please keep this in mind.
+* Also, if you allow it to store guesses and the length is over like 7 characters, it will eat up memory, and possibly crash. It can easily reach hundreds of thousands of guesses.
+* Storing guesses is best used for short passwords (probably like <6 characters), because there is a lot of repetition.
+* When there are more possible characters and a longer string, there is more variety and thus less repetition.
+* Lastly, I recommend using the -v (verbose) flag every time you run this thing. Nice to be able to double check to see what the program is about to do.
+* Known issue: the Duration section's printing/formatting (specifically with the tabs) can be quite funky. Not sure why ¯\_(ツ)_/¯ */
 #include "Gen&Guess.hpp"
 
 int main(int argc, char *argv[])
