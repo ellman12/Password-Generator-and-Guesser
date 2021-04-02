@@ -1,7 +1,6 @@
 #ifndef PGG_REWRITE_HPP_
 #define PGG_REWRITE_HPP_
 
-//Misc funcs for main file
 #include <iostream>
 #include <algorithm>
 #include <string>
