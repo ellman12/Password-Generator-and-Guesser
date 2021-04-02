@@ -1,3 +1,6 @@
+#ifndef GEN_GUESS_HPP_
+#define GEN_GUESS_HPP_
+
 //Generation and guessing functions
 #include "PGG Rewrite.hpp"
 
@@ -121,3 +124,5 @@ void guessPwd()
     else
         guessPwdWStore();
 }
+
+#endif
