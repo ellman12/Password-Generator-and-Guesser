@@ -2,29 +2,8 @@
 #include <string>
 #include <vector>
 #include <chrono>
-#include "Threads.hpp" //Contains thread stuff
+#include "PGG Rewrite.hpp"
 using namespace std;
-
-//The way the 3 seed args should work is that the one entered last will be used over any others. E.g, -s1234 --time --noseed. --noseed would be picked.
-bool noSeed = false;
-bool timeSeed = true;
-bool usingCustomSeed = false;
-
-bool usingDigits = false;
-bool usingLower = false;
-bool usingUpper = false;
-bool usingSpecialChars = false;
-
-bool verbose = false;
-bool nostore = false;
-bool customPwd = false;
-bool showChars = false;
-bool justGenerating = false; //If the user just wants to generate a password
-
-string seedString;
-int maxLength = 50; //User can change this
-unsigned long long customSeed = 0;
-vector<string> args; //Store the cmd line args in a vector for ease of use
 
 //If user specifies -v, print out stuff so they know what's happening under the hood
 void verbosePrint()
@@ -59,10 +38,10 @@ void verbosePrint()
         cout << "time(0) [" << time(0) << "] is the seed (default)" << endl;
 
     if (usingCustomSeed == true)
-        cout << "The custom seed string you entered is: " << seedString << endl;
+        cout << "The custom seed you entered is: " << seedString << endl;
 
     printf("\nOther:\n");
-    if (nostore == true)
+    if (storePwds == true)
         printf("Guesses will not be stored\n");
     else
         printf("Guesses will be stored (default)\n");
@@ -87,7 +66,6 @@ int main(int argc, char *argv[])
     }
 
     char input; //Used for the "press ENTER" thing later on
-    int numThreads;
 
     for (int i = 0; i < argc; i++) //Add args to vector
         args.push_back(argv[i]);
@@ -169,7 +147,7 @@ int main(int argc, char *argv[])
         }
 
         else if (args[i] == "--nostore")
-            nostore = true;
+            storePwds = true;
 
         else if (args[i] == "--showchars")
             showChars = true;
@@ -217,10 +195,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (timeSeed == true) //TODO: is this needed?
-        std::srand(time(0));
-
-    usableChars = usableCharsInit(usingDigits, usingLower, usingUpper, usingSpecialChars);
+    usableChars = usableCharsInit();
 
     if (passLen <= 0 && customPwd == false)
     {
@@ -230,14 +205,14 @@ int main(int argc, char *argv[])
 
     if (customPwd == false && justGenerating == false)
     {
-        correctPassword = genPwd(passLen, usableChars);
+        correctPassword = genPwd(passLen);
         cout << "No user-specified password. Generating random one: " << correctPassword << endl;
     }
 
     if (justGenerating == true && customPwd == false)
     {
         printf("Here is your newly generated password:\n");
-        correctPassword = genPwd(passLen, usableChars);
+        correctPassword = genPwd(passLen);
         cout << correctPassword << endl;
         exit(EXIT_SUCCESS);
     }
@@ -252,12 +227,5 @@ int main(int argc, char *argv[])
     cout << "Hit ENTER and the computer will attempt to guess the " << passLen << " character password " << correctPassword << endl;
     scanf("%c", &input);
 
-    thread test1(guessPwd, 1, nostore, correctPassword);
-    // thread test2(guessPwd, 2, nostore, correctPassword);
-    // thread test3(guessPwd, 3, nostore, correctPassword);
-    // thread test4(guessPwd, 4, nostore, correctPassword);
-    test1.join();
-    // test2.join();
-    // test3.join();
-    // test4.join();
+    guessPwd();
 }
