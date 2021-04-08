@@ -251,6 +251,16 @@ void seriesGuessV1(vector<char> usableChars)
     cout << result << endl;
 }
 
+//TODO:
+//Same idea but do it like this:
+//AAA
+//AAB
+//AAC, etc.
+void seriesGuessV2(vector<char> usableChars)
+{
+
+}
+
 //Default to using the global usableChars
 void guessPwdWStore()
 {
@@ -263,6 +273,10 @@ void guessPwdWoutStore()
 void seriesGuessV1()
 {
     seriesGuessV1(usableChars);
+}
+void seriesGuessV2()
+{
+    seriesGuessV2(usableChars);
 }
 
 void guessPwd()
