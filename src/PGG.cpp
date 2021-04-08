@@ -159,6 +159,11 @@ int main(int argc, char *argv[])
             noEnter = true;
         }
 
+        else if (args[i] == "--noprint")
+        {
+            noPrint = true;
+        }
+
         else if ((!args[i].empty()) && !verbose) //This somehow works
         {
             help();

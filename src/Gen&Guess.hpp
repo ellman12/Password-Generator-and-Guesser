@@ -12,23 +12,46 @@ void guessPwdWStore(vector<char> usableChars) //Can specify either the global ve
 
     auto start = high_resolution_clock::now(); //Start the timer
 
-    while (guess != correctPassword)
+    if (noPrint == false)
     {
-        guess = genPwd(passLen);
-        cout << "Guess: " << guess << '\t' << "Total Attempts: " << totalAttempts << '\t' << "Without Dupes: " << actualAttempts << "\t# of Stored Guesses: " << guesses.size() << " ";
+        while (guess != correctPassword)
+        {
+            guess = genPwd(passLen);
 
-        if (find(guesses.begin(), guesses.end(), guess) != guesses.end()) //Check for duplicates
-        {
-            printf("\tAlready in the vector");
-            totalAttempts++;
+            cout << "Guess: " << guess << '\t' << "Total Attempts: " << totalAttempts << '\t' << "Without Dupes: " << actualAttempts << "\t# of Stored Guesses: " << guesses.size() << " ";
+
+            if (find(guesses.begin(), guesses.end(), guess) != guesses.end()) //Check for duplicates
+            {
+                printf("\tAlready in the vector");
+                totalAttempts++;
+            }
+            else
+            {
+                guesses.push_back(guess);
+                totalAttempts++;
+                actualAttempts++;
+            }
+            printf("\n");
         }
-        else
+    }
+    else
+    {
+
+        while (guess != correctPassword)
         {
-            guesses.push_back(guess);
-            totalAttempts++;
-            actualAttempts++;
+            guess = genPwd(passLen);
+
+            if (find(guesses.begin(), guesses.end(), guess) != guesses.end()) //Check for duplicates
+            {
+                totalAttempts++;
+            }
+            else
+            {
+                guesses.push_back(guess);
+                totalAttempts++;
+                actualAttempts++;
+            }
         }
-        printf("\n");
     }
 
     auto stop = high_resolution_clock::now(); //Stop the timer
@@ -81,10 +104,21 @@ void guessPwdWoutStore(vector<char> usableChars)
 
     auto start = high_resolution_clock::now();
 
-    while (guess != correctPassword)
+    if (noPrint == false)
     {
-        guess = genPwd(passLen);
-        cout << "Guess: " << guess << '\t' << "Total Attempts: " << totalAttempts++ << '\n';
+        while (guess != correctPassword)
+        {
+            guess = genPwd(passLen);
+            cout << "Guess: " << guess << '\t' << "Total Attempts: " << totalAttempts++ << '\n';
+        }
+    }
+    else
+    {
+        while (guess != correctPassword)
+        {
+            guess = genPwd(passLen);
+            totalAttempts++;
+        }
     }
 
     auto stop = high_resolution_clock::now();

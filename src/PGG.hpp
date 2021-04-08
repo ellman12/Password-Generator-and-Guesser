@@ -28,6 +28,7 @@ bool showChars = false;
 bool justGenerating = false; //If the user just wants to generate a password
 bool noEnter = false;        //If the user doesn't want to do the "Hit ENTER" thing, specify the --noenter flag
 bool sendToFile = false;     //Output guessing function result to a file
+bool noPrint = false;
 string fileName;
 
 string seedString;
@@ -70,7 +71,7 @@ void help() //Shows the different flags, what they do, and how to use them
 {
     const int LENGTH = 111;
     printline(LENGTH);
-    printf("Password Generator and Guesser (PGG) V. 1.1\n");
+    printf("Password Generator and Guesser (PGG) V. 1.1.1\n");
     printf("The order of these should not affect anything\n\n");
 
     printf("Control Password Generation\n");
@@ -98,6 +99,7 @@ void help() //Shows the different flags, what they do, and how to use them
     printf("-v\t\t(Verbose) Tells you what things happen under the hood and when\n");
     printf("--showchars\tPrint out what chars a generated password could contain\n");
     printf("--noenter\tSkip the 'Hit ENTER' thing that happens before guessing begins\n");
+    printf("--noprint\tDon't print out current guess, number of guesses, etc. while guessing password\n");
     printline(LENGTH);
     printf("\n");
 }
@@ -157,6 +159,9 @@ void verbosePrint()
 
     if (noEnter == true)
         printf("User does not need to hit ENTER\n");
+
+    if (noPrint == true)
+        printf("No printing will be done while guessing\n");
 
     printline(lineLength);
     printf("\n");
