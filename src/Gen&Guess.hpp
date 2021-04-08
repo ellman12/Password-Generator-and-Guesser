@@ -9,6 +9,8 @@ string genPwd(int len)
     string newPassword = "";
     newPassword.resize(len);
 
+    cout << "size" << usableChars.size();
+
     for (int i = 0; i < len; i++) //Fill the new password string with random chars
     {
         newPassword[i] = usableChars[rand() % usableChars.size()];
@@ -188,9 +190,9 @@ void seriesGuessV1(vector<char> usableChars)
     auto start = high_resolution_clock::now();
     char c = randChar();
 
-    for (int i = 0; i < passLen; i++)
+    if (noPrint == false)
     {
-        if (noPrint == false)
+        for (int i = 0; i < passLen; i++)
         {
             while (c != correctPassword[i])
             {
@@ -200,7 +202,10 @@ void seriesGuessV1(vector<char> usableChars)
             }
             printf("Corrrect char was %c\n", c);
         }
-        else
+    }
+    else
+    {
+        for (int i = 0; i < passLen; i++)
         {
             while (c != correctPassword[i])
             {
@@ -209,6 +214,7 @@ void seriesGuessV1(vector<char> usableChars)
             }
         }
     }
+
     auto stop = high_resolution_clock::now();
 
     printf("\n");
@@ -258,7 +264,6 @@ void seriesGuessV1(vector<char> usableChars)
 //AAC, etc.
 void seriesGuessV2(vector<char> usableChars)
 {
-
 }
 
 //Default to using the global usableChars

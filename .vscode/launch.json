@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "C:/Users/Elliott/Documents/GitHub/Password-Generator-and-Guesser/src/PGG Test.exe",
-            "args": ["--series", "-p123ABCabc!@#^", "--noenter", "--noprint"],
+            "args": ["--series"],
             "stopAtEntry": false,
             "cwd": "C:/Users/Elliott/Documents/GitHub/Password-Generator-and-Guesser/",
             "environment": [],
