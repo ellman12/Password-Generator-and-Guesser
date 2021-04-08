@@ -103,7 +103,16 @@ int main(int argc, char *argv[])
         }
 
         else if (args[i] == "--nostore")
+        {
             storePwds = true;
+            useSeriesGuess = false;
+        }
+
+        else if (args[i] == "--series")
+        {
+            storePwds = false;
+            useSeriesGuess = true;
+        }
 
         else if (args[i] == "--showchars")
             showChars = true;

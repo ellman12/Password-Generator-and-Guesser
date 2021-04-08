@@ -180,6 +180,77 @@ void guessPwdWoutStore(vector<char> usableChars)
     cout << result << endl;
 }
 
+//Go through the password character by character
+void seriesGuessV1(vector<char> usableChars)
+{
+    using namespace chrono;
+    int cAttempts = 0; //How many times c has been guessed and checked
+    auto start = high_resolution_clock::now();
+    char c = randChar();
+
+    for (int i = 0; i < passLen; i++)
+    {
+        if (noPrint == false)
+        {
+            while (c != correctPassword[i])
+            {
+                printf("Trying %c\n", c);
+                c = randChar();
+                cAttempts++;
+            }
+            printf("Corrrect char was %c\n", c);
+        }
+        else
+        {
+            while (c != correctPassword[i])
+            {
+                c = randChar();
+                cAttempts++;
+            }
+        }
+    }
+    auto stop = high_resolution_clock::now();
+
+    printf("\n");
+    string result;
+    result = createLine(120);
+    result += ('\n' + correctPassword + " was guessed after " + to_string(--cAttempts) + " single char attempts.\n");
+
+    result += createLine(120) + '\n';
+
+    result += createLine(27);
+    result += "\n\t Duration\n";
+    result += createLine(27) + '\n';
+
+    auto durationNano = duration_cast<nanoseconds>(stop - start);
+    result += to_string((double)durationNano.count()) + "\tNanoseconds\n";
+
+    double durationMicro = durationNano.count() / 1000;
+    result += (to_string(durationMicro) + "\tMicroseconds\n");
+
+    double durationMilli = durationMicro / 1000;
+    result += (to_string(durationMilli) + "\tMilliseconds\n");
+
+    double durationSec = durationMilli / 1000;
+    result += (to_string(durationSec) + "\tSeconds\n");
+
+    double durationMin = durationSec / 60;
+    result += (to_string(durationMin) + "\tMinutes\n");
+
+    double durationHour = durationMin / 60;
+    result += (to_string(durationHour) + "\tHours\n\n");
+
+    if (sendToFile == true)
+    {
+        fstream resultFile;
+        resultFile.open(fileName, ios::out);
+        resultFile << result;
+        resultFile.close();
+    }
+
+    cout << result << endl;
+}
+
 //Default to using the global usableChars
 void guessPwdWStore()
 {
@@ -189,13 +260,21 @@ void guessPwdWoutStore()
 {
     guessPwdWoutStore(usableChars);
 }
+void seriesGuessV1()
+{
+    seriesGuessV1(usableChars);
+}
 
 void guessPwd()
 {
-    if (storePwds)
+    if (storePwds == true && useSeriesGuess == false)
         guessPwdWoutStore();
-    else
+    else if (storePwds == false && useSeriesGuess == false)
         guessPwdWStore();
+    else if (useSeriesGuess == true)
+        seriesGuessV1();
+    else
+        printf("guessPwd() error lol");
 }
 
 #endif
