@@ -71,7 +71,7 @@ void help() //Shows the different flags, what they do, and how to use them
 {
     const int LENGTH = 111;
     printline(LENGTH);
-    printf("Password Generator and Guesser (PGG) V. 1.1.1\n");
+    printf("Password Generator and Guesser (PGG) V. 1.2\n");
     printf("The order of these should not affect anything\n\n");
 
     printf("Control Password Generation\n");
@@ -165,18 +165,6 @@ void verbosePrint()
 
     printline(lineLength);
     printf("\n");
-}
-
-string genPwd(int len)
-{
-    string newPassword = "";
-    newPassword.resize(len);
-
-    for (int i = 0; i < len; i++) //Fill the new password string with random chars
-    {
-        newPassword[i] = usableChars[rand() % usableChars.size()];
-    }
-    return newPassword;
 }
 
 string genPwd(int len, vector<char> usableChars)

@@ -4,6 +4,23 @@
 
 #include "PGG.hpp"
 
+string genPwd(int len)
+{
+    string newPassword = "";
+    newPassword.resize(len);
+
+    for (int i = 0; i < len; i++) //Fill the new password string with random chars
+    {
+        newPassword[i] = usableChars[rand() % usableChars.size()];
+    }
+    return newPassword;
+}
+
+char randChar()
+{
+    return usableChars[rand() % usableChars.size()];
+}
+
 void guessPwdWStore(vector<char> usableChars) //Can specify either the global vector or another vector of usableChars.
 {
     using namespace chrono;
