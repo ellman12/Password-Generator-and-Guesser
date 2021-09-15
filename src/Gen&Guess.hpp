@@ -198,7 +198,7 @@ void seriesGuessV1(vector<char> usableChars)
                 c = randChar();
                 cAttempts++;
             }
-            printf("Corrrect char was %c\n", c);
+            printf("Correct char was %c\n", c);
         }
     }
     else
@@ -260,6 +260,7 @@ void seriesGuessV1(vector<char> usableChars)
 //AAA
 //AAB
 //AAC, etc.
+//I.e., don't guess random chars each time. Increment(?) instead.
 void seriesGuessV2(vector<char> usableChars)
 {
 }
