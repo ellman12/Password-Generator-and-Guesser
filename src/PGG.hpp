@@ -303,6 +303,7 @@ bool isSpecialChar(char c, bool *usingSpecialChars)
     case '_':
         *usingSpecialChars = true;
         return true;
+        
     case '=':
         *usingSpecialChars = true;
         return true;
