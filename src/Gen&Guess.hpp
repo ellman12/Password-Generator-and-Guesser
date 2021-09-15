@@ -9,8 +9,6 @@ string genPwd(int len)
     string newPassword = "";
     newPassword.resize(len);
 
-    cout << "size" << usableChars.size();
-
     for (int i = 0; i < len; i++) //Fill the new password string with random chars
     {
         newPassword[i] = usableChars[rand() % usableChars.size()];
