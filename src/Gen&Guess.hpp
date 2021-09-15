@@ -181,7 +181,7 @@ void guessPwdWoutStore(vector<char> usableChars)
 }
 
 //Go through the password character by character
-void seriesGuessV1(vector<char> usableChars)
+void seriesGuess(vector<char> usableChars)
 {
     using namespace chrono;
     int cAttempts = 0; //How many times c has been guessed and checked
@@ -274,9 +274,9 @@ void guessPwdWoutStore()
 {
     guessPwdWoutStore(usableChars);
 }
-void seriesGuessV1()
+void seriesGuess()
 {
-    seriesGuessV1(usableChars);
+    seriesGuess(usableChars);
 }
 void seriesGuessV2()
 {
@@ -290,7 +290,7 @@ void guessPwd()
     else if (storePwds == false && useSeriesGuess == false)
         guessPwdWStore();
     else if (useSeriesGuess == true)
-        seriesGuessV1();
+        seriesGuess();
     else
         printf("guessPwd() error lol");
 }

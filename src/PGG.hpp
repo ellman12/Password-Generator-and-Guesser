@@ -70,12 +70,11 @@ string createLine(const int LENGTH)
 
 void help() //Shows the different flags, what they do, and how to use them
 {
-    const int LENGTH = 111;
+    const int LENGTH = 113;
     printline(LENGTH);
-    printf("Password Generator and Guesser (PGG) V. 1.2\n");
-    printf("The order of these should not affect anything\n\n");
+    printf("Password Generator and Guesser (PGG) V. 1.2\n\n");
 
-    printf("Control Password Generation\n");
+    printf("Control Password Generation\n---------------------------\n");
     printf("-d  Use digits in the generated password\n");
     printf("-l  Use lowercase a-z in the generated password\n");
     printf("-u  Use uppercase A-Z in the generated password\n");
@@ -84,18 +83,19 @@ void help() //Shows the different flags, what they do, and how to use them
     printf("-L  Force the generated password to be a certain length\n");
     printf("-M  If no length given, generate random length between 1 and M\n\n");
 
-    printf("Control rand() Seed\n");
+    printf("Control rand() Seed\n-------------------\n");
     printf("--noseed    Default srand value (same numbers generated every time)\n");
     printf("--time      Use time(0) as the seed (default if neither specified)\n");
     printf("-S<digits>  Custom seed value\n\n");
 
-    printf("Control Password Guessing\n");
-    printf("--store    Store guesses to avoid duplicating. This can also help make guessing faster (Default)\n");
-    printf("--nostore  Don't store them. Can help avoid running out of memory if the password is long\n");
-    printf("--series   A significantly better guessing algorithm. Goes through 1 char at a time to crack the password\n");
+    printf("Control Password Guessing\n------------------------\n");
+    printf("--store       Store guesses to avoid duplicating. This can also help make guessing faster (Default)\n");
+    printf("--nostore     Don't store them. Can help avoid running out of memory if the password is long\n");
+    printf("--series      A significantly better guessing algorithm. Goes through 1 char at a time to crack the password\n");
+    printf("--increment   Sonewhat similar to --series. Starts at something like AAAAA, then goes to AAAAB, then AAAAC, etc.\n");
     printf("-O\"filename\"  Output guessing function result to a file\n");
 
-    printf("\nMisc\n");
+    printf("\nMisc\n----\n");
     printf("--help\t\tShows this\n");
     printf("--genpwd\tJust generates a password; no guessing, etc. Use normal flags like -d, -L, etc. for generation\n");
     printf("-v\t\t(Verbose) Tells you what things happen under the hood and when\n");
