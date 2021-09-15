@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
 
         else if (args[i] == "--nostore")
         {
-            storePwds = true;
+            storePwds = false;
             useSeriesGuess = false;
         }
 
@@ -112,6 +112,14 @@ int main(int argc, char *argv[])
         {
             storePwds = false;
             useSeriesGuess = true;
+            useIncrementGuess = false;
+        }
+        
+        else if (args[i] == "--increment")
+        {
+            storePwds = false;
+            useSeriesGuess = false;
+            useIncrementGuess = true;
         }
 
         else if (args[i] == "--showchars")
@@ -215,8 +223,14 @@ int main(int argc, char *argv[])
 
     if (noEnter == false)
     {
+        cout << "Hit ENTER and the computer will attempt to guess the " << passLen << " character password " << correctPassword;
+        if (useSeriesGuess)
+            cout << " using the series method";
+        else if (useIncrementGuess)
+            cout << " using the incrementing method";
+
+        cout << endl;
         char input;
-        cout << "Hit ENTER and the computer will attempt to guess the " << passLen << " character password " << correctPassword << endl;
         scanf("%c", &input);
     }
 

@@ -261,8 +261,9 @@ void seriesGuess(vector<char> usableChars)
 //AAB
 //AAC, etc.
 //I.e., don't guess random chars each time. Increment(?) instead.
-void seriesGuessV2(vector<char> usableChars)
+void incrementGuess(vector<char> usableChars)
 {
+    
 }
 
 //Default to using the global usableChars
@@ -278,19 +279,21 @@ void seriesGuess()
 {
     seriesGuess(usableChars);
 }
-void seriesGuessV2()
+void incrementGuess()
 {
-    seriesGuessV2(usableChars);
+    incrementGuess(usableChars);
 }
 
 void guessPwd()
 {
-    if (storePwds == true && useSeriesGuess == false)
+    if (storePwds == false && useSeriesGuess == false && useIncrementGuess == false)
         guessPwdWoutStore();
-    else if (storePwds == false && useSeriesGuess == false)
+    else if (storePwds == true && useSeriesGuess == false && useIncrementGuess == false)
         guessPwdWStore();
     else if (useSeriesGuess == true)
         seriesGuess();
+    else if (useIncrementGuess == true)
+        incrementGuess();
     else
         printf("guessPwd() error lol");
 }

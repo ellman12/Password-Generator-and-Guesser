@@ -21,7 +21,7 @@ bool usingUpper = false;
 bool usingSpecialChars = false;
 
 bool verbose = false;
-bool storePwds = false;
+bool storePwds = true;
 bool storeGuesses;
 bool customPwd = false;
 bool showChars = false;
@@ -30,6 +30,7 @@ bool noEnter = false;        //If the user doesn't want to do the "Hit ENTER" th
 bool sendToFile = false;     //Output guessing function result to a file
 bool noPrint = false;
 bool useSeriesGuess = false; //A much better guessing algorithm
+bool useIncrementGuess = false; //An alternative guessing algorithm
 string fileName;
 
 string seedString;
@@ -92,7 +93,7 @@ void help() //Shows the different flags, what they do, and how to use them
     printf("--store       Store guesses to avoid duplicating. This can also help make guessing faster (Default)\n");
     printf("--nostore     Don't store them. Can help avoid running out of memory if the password is long\n");
     printf("--series      A significantly better guessing algorithm. Goes through 1 char at a time to crack the password\n");
-    printf("--increment   Sonewhat similar to --series. Starts at something like AAAAA, then goes to AAAAB, then AAAAC, etc.\n");
+    printf("--increment   Somewhat similar to --series. Starts at something like AAAAA, then goes to AAAAB, then AAAAC, etc.\n");
     printf("-O\"filename\"  Output guessing function result to a file\n");
 
     printf("\nMisc\n----\n");
@@ -142,10 +143,10 @@ void verbosePrint()
         cout << "The custom seed you entered is: " << seedString << endl;
 
     printf("\nOther:\n");
-    if (storePwds == true && useSeriesGuess == false)
-        printf("Guesses will not be stored\n");
-    else if (storePwds == false && useSeriesGuess == false)
+    if (storePwds == true)
         printf("Guesses will be stored (default)\n");
+    else if (storePwds == false)
+        printf("Guesses will NOT be stored\n");
     else if (useSeriesGuess == true)
         printf("Series guessing algorithm will be used\n");
 
