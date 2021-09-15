@@ -93,7 +93,7 @@ void help() //Shows the different flags, what they do, and how to use them
     printf("--store       Store guesses to avoid duplicating. This can also help make guessing faster (Default)\n");
     printf("--nostore     Don't store them. Can help avoid running out of memory if the password is long\n");
     printf("--series      A significantly better guessing algorithm. Goes through 1 char at a time to crack the password\n");
-    printf("--increment   Somewhat similar to --series. Starts at something like AAAAA, then goes to AAAAB, then AAAAC, etc.\n");
+    printf("--increment   Somewhat similar to --series. Starts at something like AAAAA, then goes to BAAAA, then CAAAA, etc.\n");
     printf("-O\"filename\"  Output guessing function result to a file\n");
 
     printf("\nMisc\n----\n");
