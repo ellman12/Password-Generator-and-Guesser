@@ -320,34 +320,16 @@ void incrementGuess(vector<char> usableChars)
     cout << result << endl;
 }
 
-//Default to using the global usableChars
-void guessPwdWStore()
-{
-    guessPwdWStore(usableChars);
-}
-void guessPwdWoutStore()
-{
-    guessPwdWoutStore(usableChars);
-}
-void seriesGuess()
-{
-    seriesGuess(usableChars);
-}
-void incrementGuess()
-{
-    incrementGuess(usableChars);
-}
-
 void guessPwd()
 {
     if (storePwds == false && useSeriesGuess == false && useIncrementGuess == false)
-        guessPwdWoutStore();
+        guessPwdWoutStore(usableChars);
     else if (storePwds == true && useSeriesGuess == false && useIncrementGuess == false)
-        guessPwdWStore();
+        guessPwdWStore(usableChars);
     else if (useSeriesGuess == true)
-        seriesGuess();
+        seriesGuess(usableChars);
     else if (useIncrementGuess == true)
-        incrementGuess();
+        incrementGuess(usableChars);
     else
         printf("guessPwd() error lol");
 }
