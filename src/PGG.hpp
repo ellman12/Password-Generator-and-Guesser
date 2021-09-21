@@ -29,7 +29,7 @@ bool justGenerating = false; //If the user just wants to generate a password
 bool noEnter = false;        //If the user doesn't want to do the "Hit ENTER" thing, specify the --noenter flag
 bool sendToFile = false;     //Output guessing function result to a file
 bool noPrint = false;
-bool useSeriesGuess = false; //A much better guessing algorithm
+bool useSeriesGuess = false;    //A much better guessing algorithm
 bool useIncrementGuess = false; //An alternative guessing algorithm
 string fileName;
 
@@ -303,7 +303,7 @@ bool isSpecialChar(char c, bool *usingSpecialChars)
     case '_':
         *usingSpecialChars = true;
         return true;
-        
+
     case '=':
         *usingSpecialChars = true;
         return true;

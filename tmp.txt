@@ -1,10 +1,10 @@
 v1.2 changelog
-added increment method
-TODO: remove noprint cuz it's buggy and not useful and remove showchars from -v
+added increment guessing method
+TODO: ether fix or remove noprint cuz it's buggy and not useful and remove showchars from -v
 I think that's it.
 
 
-fix crash when series specified but no -p.....
+fixed crash when none of these were specified: -d -l -u -s -p
 stats
 either dump to csv or excel file or have a nice thing to copy paste
 

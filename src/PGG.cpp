@@ -188,6 +188,13 @@ int main(int argc, char *argv[])
             exit(EXIT_FAILURE);
         }
     }
+    
+    //Used to fix crash if "--series" specified but none of these flags are.
+    if (!usingDigits && !usingLower && !usingUpper && !usingSpecialChars && !customPwd)
+    {
+        cout << "Please specify either your own password you want PGG to guess with the -p flag,\nor specify at least one of these flags to have PGG automatically create a random password: -d -l -u -s." << endl;
+        exit(EXIT_FAILURE);
+    }
 
     usableChars = usableCharsInit();
 
