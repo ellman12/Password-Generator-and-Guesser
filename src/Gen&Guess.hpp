@@ -266,27 +266,46 @@ void incrementGuess(vector<char> usableChars)
     string guess = ""; //Tracks progress of incrementing through the password.
 
     auto start = high_resolution_clock::now(); //Start the timer
-    for (char c : correctPassword)
+    if (noPrint == false)
     {
-        cout << "Goal:\t  " << correctPassword << "\nProgress: " << guess << endl;
-        cout << "\nNeed to Reach: " << c << "\tTotal Increments: " << totalIncrements << "\nTrying: ";
-        for (char u : usableChars)
+        for (char c : correctPassword)
         {
-            totalIncrements++;
-            cout << u << " ";
-            if (c == u)
+            cout << "Goal:\t  " << correctPassword << "\nProgress: " << guess << endl;
+            cout << "\nNeed to Reach: " << c << "\tTotal Increments: " << totalIncrements << "\nTrying: ";
+            for (char u : usableChars)
             {
-                guess += u;
-                cout << "\n";
-                printline(45);
-                break;
+                totalIncrements++;
+                cout << u << " ";
+                if (c == u)
+                {
+                    guess += u;
+                    cout << "\n";
+                    printline(45);
+                    break;
+                }
             }
         }
     }
+    else
+    {
+        for (char c : correctPassword)
+        {
+            for (char u : usableChars)
+            {
+                totalIncrements++;
+                if (c == u)
+                {
+                    guess += u;
+                    break;
+                }
+            }
+        }
+    }
+    
     auto stop = high_resolution_clock::now(); //Stop the timer
 
     string result;
-    result += ('\n' + correctPassword + " was guessed after " + to_string(totalIncrements) + " increments\n");
+    result += ('\n' + guess + " was guessed after " + to_string(totalIncrements) + " increments\n");
 
     result += createLine(27);
     result += "\n\t Duration\n";
