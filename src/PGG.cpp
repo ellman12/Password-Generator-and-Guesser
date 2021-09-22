@@ -204,13 +204,15 @@ int main(int argc, char *argv[])
     if (passLen <= 0 && customPwd == false)
     {
         passLen = genRandNum(1, maxLength);
-        cout << "No user-specified password length. Generating rand length of: " << passLen << endl;
+        if (verbose)
+            cout << "No user-specified password length. Generating rand length of: " << passLen << endl;
     }
 
     if (customPwd == false && justGenerating == false)
     {
         correctPassword = genPwd(passLen);
-        cout << "No user-specified password. Generating random one: " << correctPassword << endl;
+        if (verbose)
+            cout << "No user-specified password. Generating random one: " << correctPassword << endl;
     }
 
     if (justGenerating == true && customPwd == false)
