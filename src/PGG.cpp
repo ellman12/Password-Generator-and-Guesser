@@ -30,7 +30,10 @@ int main(int argc, char *argv[])
     for (int i = 0; i < argc; i++) //First determine if verbose or if --help was specified
     {
         if (args[i] == "-v")
+        {
             verbose = true;
+            printline(54);
+        }
         else if (args[i] == "--help")
         {
             help();
@@ -114,16 +117,13 @@ int main(int argc, char *argv[])
             useSeriesGuess = true;
             useIncrementGuess = false;
         }
-        
+
         else if (args[i] == "--increment")
         {
             storePwds = false;
             useSeriesGuess = false;
             useIncrementGuess = true;
         }
-
-        else if (args[i] == "--showchars")
-            showChars = true;
 
         else if (noSeed == false && args[i] == "--noseed")
         {
@@ -184,11 +184,11 @@ int main(int argc, char *argv[])
         else if ((!args[i].empty()) && !verbose) //This somehow works
         {
             help();
-            cout << "Unknown flag \"" << args[i] << "\" at index " << i << endl;
+            cout << "Unknown flag \"" << args[i] << "\"" << endl;
             exit(EXIT_FAILURE);
         }
     }
-    
+
     //Used to fix crash if "--series" specified but none of these flags are.
     if (!usingDigits && !usingLower && !usingUpper && !usingSpecialChars && !customPwd)
     {

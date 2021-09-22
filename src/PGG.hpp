@@ -24,7 +24,6 @@ bool verbose = false;
 bool storePwds = true;
 bool storeGuesses;
 bool customPwd = false;
-bool showChars = false;
 bool justGenerating = false; //If the user just wants to generate a password
 bool noEnter = false;        //If the user doesn't want to do the "Hit ENTER" thing, specify the --noenter flag
 bool sendToFile = false;     //Output guessing function result to a file
@@ -100,7 +99,6 @@ void help() //Shows the different flags, what they do, and how to use them
     printf("--help\t\tShows this\n");
     printf("--genpwd\tJust generates a password; no guessing, etc. Use normal flags like -d, -L, etc. for generation\n");
     printf("-v\t\t(Verbose) Tells you what things happen under the hood and when\n");
-    printf("--showchars\tPrint out what chars a generated password could contain\n");
     printf("--noenter\tSkip the 'Hit ENTER' thing that happens before guessing begins\n");
     printf("--noprint\tDon't print out current guess, number of guesses, etc. while guessing password\n");
     printline(LENGTH);
@@ -111,9 +109,6 @@ void help() //Shows the different flags, what they do, and how to use them
 void verbosePrint()
 {
     printf("\n");
-    int lineLength = 52 + correctPassword.length() + 2; //Guarantee some nice line formatting :)
-    printline(lineLength);
-    printf("-v (verbose) print\n");
     printf("\nPassword generation:\n");
     if (usingDigits == true)
         printf("Using digits\n");
@@ -155,20 +150,13 @@ void verbosePrint()
     else
         printf("Output of guessing functions will NOT be sent to a file\n");
 
-    if (showChars == true)
-    {
-        printf("Chars a password could contain:\n");
-        for (int i = 0; i < usableChars.size(); i++)
-            cout << usableChars.at(i) << ' ';
-    }
-
     if (noEnter == true)
         printf("User does not need to hit ENTER\n");
 
     if (noPrint == true)
         printf("No printing will be done while guessing\n");
 
-    printline(lineLength);
+    printline(54);
     printf("\n");
 }
 
