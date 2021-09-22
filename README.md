@@ -113,4 +113,7 @@ If you don't want PGG to print out stuff while it is guessing the password, pass
 ```
 $ ./PGG.exe -p123456 -OHelloWorld
 ```
-When PGG finally guesses the password, have it send the results to a file. You do not need to give it an extension in the -O flag.
+When PGG finally guesses the password, have it send the results to a file. You do not need to give it an extension in the -O flag.<br><br>
+
+## Contributing
+Feel free to message me or open a PR if you have a feature idea or spot a bug 🐛
