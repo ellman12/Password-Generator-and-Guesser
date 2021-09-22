@@ -166,11 +166,6 @@ int main(int argc, char *argv[])
             fileName += ".txt";
         }
 
-        else if (args[i] == "--genpwd")
-        {
-            justGenerating = true;
-        }
-
         else if (args[i] == "--noenter")
         {
             noEnter = true;
@@ -208,19 +203,11 @@ int main(int argc, char *argv[])
             cout << "No user-specified password length. Generating rand length of: " << passLen << endl;
     }
 
-    if (customPwd == false && justGenerating == false)
+    if (customPwd == false)
     {
         correctPassword = genPwd(passLen);
         if (verbose)
             cout << "No user-specified password. Generating random one: " << correctPassword << endl;
-    }
-
-    if (justGenerating == true && customPwd == false)
-    {
-        printf("Here is your newly generated password:\n");
-        correctPassword = genPwd(passLen);
-        cout << correctPassword << endl;
-        exit(EXIT_SUCCESS);
     }
 
     //Just to verify we have the correct length
