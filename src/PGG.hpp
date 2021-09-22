@@ -132,7 +132,7 @@ void verbosePrint()
     if (customPwd == true)
         cout << "The custom " << passLen << " character password you entered is: " << correctPassword << endl;
 
-    printf("\nSeed info:\n");
+    printf("Seed info:\n");
     if (noSeed == true)
         cout << "The default srand() seed will be used" << endl;
 

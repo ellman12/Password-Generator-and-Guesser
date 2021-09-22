@@ -100,7 +100,7 @@ void guessPwdWStore(vector<char> usableChars) //Can specify either the global ve
     result += (to_string(durationMin) + "\tMinutes\n");
 
     double durationHour = durationMin / 60;
-    result += (to_string(durationHour) + "\tHours\n\n");
+    result += (to_string(durationHour) + "\tHours");
 
     if (sendToFile == true)
     {
@@ -167,7 +167,7 @@ void guessPwdWoutStore(vector<char> usableChars)
     result += (to_string(durationMin) + "\tMinutes\n");
 
     double durationHour = durationMin / 60;
-    result += (to_string(durationHour) + "\tHours\n\n");
+    result += (to_string(durationHour) + "\tHours");
 
     if (sendToFile == true)
     {
@@ -242,7 +242,7 @@ void seriesGuess(vector<char> usableChars)
     result += (to_string(durationMin) + "\tMinutes\n");
 
     double durationHour = durationMin / 60;
-    result += (to_string(durationHour) + "\tHours\n\n");
+    result += (to_string(durationHour) + "\tHours");
 
     if (sendToFile == true)
     {
@@ -308,7 +308,7 @@ void incrementGuess(vector<char> usableChars)
     result += (to_string(durationMin) + "\tMinutes\n");
 
     double durationHour = durationMin / 60;
-    result += (to_string(durationHour) + "\tHours\n\n");
+    result += (to_string(durationHour) + "\tHours");
 
     if (sendToFile == true)
     {
