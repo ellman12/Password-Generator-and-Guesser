@@ -25,10 +25,10 @@ Control rand() Seed<br>
 
 Control Password Guessing<br>
 \------------------------------<br>
-<code>--store     </code> (Default) Store guesses to avoid duplicating. This can also help make guessing faster<br>
-<code>--nostore   </code> Don't store them. Can help avoid running out of memory if the password is long<br>
-<code>--series    </code> A significantly better guessing algorithm. Goes through 1 char at a time to crack the password<br>
-<code>--increment </code> Somewhat similar to --series. Starts at something like AAAAA, then goes to BAAAA, then CAAAA, etc.<br>
+<code>--store</code> (Default) Store guesses to avoid duplicating. This can also help make guessing faster<br>
+<code>--nostore</code> Don't store them. Can help avoid running out of memory if the password is long<br>
+<code>--series</code> A significantly better guessing algorithm. Goes through 1 char at a time to crack the password<br>
+<code>--increment</code> Somewhat similar to --series. Starts at something like AAAAA, then goes to BAAAA, then CAAAA, etc.<br>
 <code>-O"filename"</code> Output guessing function result to a file<br><br>
 
 Misc<br>
