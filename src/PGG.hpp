@@ -24,7 +24,6 @@ bool verbose = false;
 bool storePwds = true;
 bool storeGuesses;
 bool customPwd = false;
-bool justGenerating = false; //If the user just wants to generate a password
 bool noEnter = false;        //If the user doesn't want to do the "Hit ENTER" thing, specify the --noenter flag
 bool sendToFile = false;     //Output guessing function result to a file
 bool noPrint = false;
@@ -81,7 +80,7 @@ void help() //Shows the different flags, what they do, and how to use them
     printf("-s  Use special characters in the generated password\n");
     printf("-p  Input your own password after the -p. Causes d, l, u, and s to be set automatically\n");
     printf("-L  Force the generated password to be a certain length\n");
-    printf("-M  If no length given, generate random length between 1 and M\n\n");
+    printf("-M  If no length given, generate random length between 1 and M. 50 is default max length\n\n");
 
     printf("Control rand() Seed\n-------------------\n");
     printf("--noseed    Default srand value (same numbers generated every time)\n");
@@ -89,7 +88,7 @@ void help() //Shows the different flags, what they do, and how to use them
     printf("-S<digits>  Custom seed value\n\n");
 
     printf("Control Password Guessing\n-------------------------\n");
-    printf("--store       Store guesses to avoid duplicating. This can also help make guessing faster (Default)\n");
+    printf("--store       (Default) Store guesses to avoid duplicating. This can also help make guessing faster\n");
     printf("--nostore     Don't store them. Can help avoid running out of memory if the password is long\n");
     printf("--series      A significantly better guessing algorithm. Goes through 1 char at a time to crack the password\n");
     printf("--increment   Somewhat similar to --series. Starts at something like AAAAA, then goes to BAAAA, then CAAAA, etc.\n");
@@ -97,8 +96,7 @@ void help() //Shows the different flags, what they do, and how to use them
 
     printf("\nMisc\n----\n");
     printf("--help\t\tShows this\n");
-    printf("--genpwd\tJust generates a password; no guessing, etc. Use normal flags like -d, -L, etc. for generation\n");
-    printf("-v\t\t(Verbose) Tells you what things happen under the hood and when\n");
+    printf("-v\t\t(Verbose) Tells you what things happen under the hood and when. I recommend using this flag.\n");
     printf("--noenter\tSkip the 'Hit ENTER' thing that happens before guessing begins\n");
     printf("--noprint\tDon't print out current guess, number of guesses, etc. while guessing password\n");
     printline(LENGTH);
