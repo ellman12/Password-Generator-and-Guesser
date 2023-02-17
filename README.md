@@ -1,5 +1,8 @@
 # Password-Generator-and-Guesser
-Slightly over-engineered password guesser program written in C++. There are a ton of different arguments you can pass to it to control how it operates. It also has the ability to display how long it took to guess the password. This was made for two reasons: to give me some C++ experience, and to get some experience working with command line arguments (flags).<br><br>
+
+![image](https://user-images.githubusercontent.com/56001219/219805537-69efcc28-fecf-4554-8e80-61c698ecc461.png)
+
+Slightly over-engineered password guesser program written in C++. There are a ton of different arguments you can pass to it to control how it operates. It also has the ability to display how long it took to guess the password. This was made for two reasons: to give me some C++ experience, and to get some experience working with command line arguments (flags).<br>
 
 ## Compile
 Clone the repo and <code>cd</code> into the <code>src</code> folder<br>
